@@ -1,0 +1,13 @@
+const express = require('express');
+const app = express();
+const cookieparser = require('cookie-parser');
+const db = require('./db')();
+const log = require('./Routes/log.js');
+require("dotenv").config();
+//const bodyParser = require('body-parser');
+app.listen(process.env.PORT||1998);
+app.set('view-engine','ejs');
+app.use(express.json());
+app.use(cookieparser());
+app.use(express.urlencoded({extended:true}));
+app.use('/',log);
