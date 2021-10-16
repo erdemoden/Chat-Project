@@ -1,30 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sıgn-Up!</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
 </head>
 <style>
-    .middle{
+    .middle {
         text-align: center;
         font-size: larger;
         font-weight: bolder;
     }
-    #kutu{
+
+    #kutu {
         width: 95%;
         height: 500px;
         margin: 0 auto;
-        margin-top:10%;
+        margin-top: 10%;
         border-radius: 25px;
     }
-    #form{
+
+    #form {
         margin: 0 auto;
         margin-bottom: 200px;
     }
-    #login{
+
+    #login {
         margin: 0;
         position: absolute;
         left: 50%;
@@ -32,67 +37,90 @@
         -ms-transform: translate(-50%, -50%);
         transform: translate(-50%, -50%);
     }
-    #Log-In{
+
+    #Log-In {
         margin: 0;
-        margin-top: 220px;
+        top: 340px;
         position: absolute;
         left: 50%;
         -ms-transform: translate(-50%, -50%);
         transform: translate(-50%, -50%);
     }
-    #deneme{
+
+    #deneme {
         color: white;
         margin-bottom: 5px;
         margin-top: 5px;
     }
-    #welcome{
+
+    #welcome {
         color: white;
         text-align: center;
         font-weight: bolder;
     }
+
     @media screen and (min-width:650px) {
-    #kutu{
-        width: 75%;
+        #kutu {
+            width: 75%;
+        }
     }
-    }
+
     @media screen and (min-width:850px) {
-    #kutu{
-        width: 65%;
+        #kutu {
+            width: 65%;
+        }
     }
-    }
+
     @media screen and (min-width:950px) {
-    #kutu{
-        width: 55%;
-    }
+        #kutu {
+            width: 55%;
+        }
     }
 </style>
+
 <body>
     <% if (error!=false) { %>
-        <div class="alert alert-danger middle" role="alert"> <%= error %> </div>
-          <% } %>
-    <nav class="navbar navbar-dark bg-dark" id="kutu">
-        <form id="form" action="/sign-up" method="POST">
-            <h1 id="welcome">Sign-Up</h1>
-            <div class="form-group">
-              <label for="exampleInputEmail1" id="deneme">Name</label>
-              <input type="name" class="form-control" placeholder="Enter Name" name="name">
-            </div>
-            <div class="form-group">
-                <label for="exampleInputPassword1" id="deneme">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="password">
-            </div>
-            <button type="submit" class="btn btn-success"id = "login">Login</button>
-        </form>
-        <button class="btn btn-primary" id="Log-In">Do You Have Account Log-In</button>  
-    </nav>
-   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
-   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-W8fXfP3gkOKtndU4JGtKDvXbO53Wy8SZCQHczT5FMiiqmQfUpWbYdTil/SxwZgAN" crossorigin="anonymous"></script>
-   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js" integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/" crossorigin="anonymous"></script>
-<script>
-    let login = document.getElementById("Log-In");
-    login.addEventListener("click",()=>{
-        window.open("/","_self");
-    });
-</script>
+        <div class="alert alert-danger middle" role="alert" id="middle">
+            <%= error %>
+        </div>
+        <script>
+            let danger = document.getElementById("middle");
+            setTimeout(() => {
+                danger.style.display = 'none';
+            }, 3000);
+        </script>
+        <% } %>
+            <nav class="navbar navbar-dark bg-dark" id="kutu">
+                <form id="form" action="/sign-up" method="POST">
+                    <h1 id="welcome">Sign-Up</h1>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1" id="deneme">Name</label>
+                        <input type="name" class="form-control" placeholder="Enter Name" name="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1" id="deneme">Password</label>
+                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"
+                            name="password">
+                    </div>
+                    <button type="submit" class="btn btn-success" id="login">Login</button>
+                </form>
+                <button class="btn btn-primary" id="Log-In">Do You Have Account Log-In</button>
+            </nav>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+                crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"
+                integrity="sha384-W8fXfP3gkOKtndU4JGtKDvXbO53Wy8SZCQHczT5FMiiqmQfUpWbYdTil/SxwZgAN"
+                crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js"
+                integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/"
+                crossorigin="anonymous"></script>
+            <script>
+                let login = document.getElementById("Log-In");
+                login.addEventListener("click", () => {
+                    window.open("/", "_self");
+                });
+            </script>
 </body>
+
 </html>

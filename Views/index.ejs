@@ -68,8 +68,14 @@
 </style>
 <body>
     <% if (error!=false) { %>
-    <div class="alert alert-danger middle" role="alert"> <%= error %> </div>
-      <% } %>
+    <div class="alert alert-danger middle" role="alert" id="middle"> <%= error %> </div>
+    <script>
+        let danger = document.getElementById("middle");
+        setTimeout(() => {
+            danger.style.display = 'none';
+        }, 3000);
+    </script>
+    <% } %>
     <nav class="navbar navbar-dark bg-dark" id="kutu">
         <form id="form" action="/login" method="POST">
             <h1 id="welcome">WELCOME</h1>
