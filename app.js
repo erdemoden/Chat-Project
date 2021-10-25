@@ -4,10 +4,17 @@ const cookieparser = require('cookie-parser');
 const db = require('./db')();
 const log = require('./Routes/log.js');
 require("dotenv").config();
+const http = require("http");
 //const bodyParser = require('body-parser');
-app.listen(process.env.PORT||1998);
+const server = http.createServer(app);
+const socketio = require("socket.io");
+const io = socketio(server);
+server.listen(process.env.PORT||1998);
+app.use(express.static('images'));
 app.set('view-engine','ejs');
 app.use(express.json());
 app.use(cookieparser());
 app.use(express.urlencoded({extended:true}));
+
+
 app.use('/',log);

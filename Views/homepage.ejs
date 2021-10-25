@@ -6,8 +6,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HomePage</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <style>
+    .hamburger{
+        display: none;
+        width: 90px;
+        height: 40px;
+        background-color: transparent;
+        border: 0;
+        margin-top: 1px;
+        position: absolute;
+       right:0px;
+    }
+    .hbuttons{
+        background-color:rgb(136, 130, 130); 
+        text-align: center;
+        display: none; 
+    }
+    li{
+        display: block;
+        margin:0 auto;
+        padding-top: 15px;
+        padding-bottom: 15px;
+    }
+    img{
+        width:90px;
+        height:40px;
+    }
+    #buttons{
+        display: block;
+        font-weight: bolder;
+        margin-left: 100px;
+    }
     #login{
         margin: 0;
         position: absolute;
@@ -31,6 +62,7 @@
         font-weight: bolder;
     }
     .shadow{
+        justify-content: left;
         box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
     }
     .white{
@@ -39,6 +71,7 @@
         margin-left: 10px;
     }
     #create-room{
+        display: block;
         background-color: black;
         width: 95%;
         height: 500px;
@@ -46,6 +79,49 @@
         margin-top:10%;
         border-radius: 25px;
         box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    }
+    @media  screen and (max-width:1320px) {
+        #buttons{
+            margin-left: 80px;
+        }
+    }
+    @media  screen and (max-width:1240px) {
+        #buttons{
+            margin-left: 70px;
+        }
+    }
+    @media  screen and (max-width:1200px) {
+        #buttons{
+            margin-left: 60px;
+        }
+    }
+    @media  screen and (max-width:1150px) {
+        #buttons{
+            margin-left: 50px;
+        }
+    }
+    @media  screen and (max-width:1110px) {
+        #buttons{
+            margin-left: 40px;
+        }
+    }
+    @media  screen and (max-width:1070px) {
+        #buttons{
+            margin-left: 30px;
+        }
+    }
+    @media  screen and (max-width:1025px) {
+        #buttons{
+            margin-left: 20px;
+        }
+    }
+    @media  screen and (max-width:980px) {
+        .hamburger{
+            display: block;
+        }
+        #buttons{
+            display: none;
+        }
     }
     @media screen and (min-width:650px) {
     #create-room{
@@ -65,18 +141,31 @@
 </style>
 <body>
      <nav class="navbar navbar-dark bg-dark shadow">
-        <h1 class="white">Hoşgeldin <%= ad.name %></h1>
+         <button type="button" class="hamburger"><img src="/hamburger.png"></button>
+        <h1 class="white" style="display: block;">Hoşgeldin <%= ad.name %></h1>
+        <button type="button" class="btn btn-success" id="buttons">Create Your Chat Room</button>
+        <button type="button" class="btn btn-success" id="buttons">Your Chat Rooms</button>
+        <button type="button" class="btn btn-success" id="buttons">All Chat Rooms</button>
+        <button type="button" class="btn btn-success" id="buttons">Sign-Out</button>
       </nav>
+        <ul class="hbuttons">
+            <li><button type="button" class="btn btn-success">Create Your Chat Room</button></li>
+           <li><button type="button" class="btn btn-success">Your Chat Rooms</button></li>
+           <li><button type="button" class="btn btn-success">All Chat Rooms</button></li>
+           <li><button type="button" class="btn btn-success">Sign-Out</button></li>
+           </ul>
       <nav class="navbar navbar-dark bg-dark" id="create-room">
         <form id="form" action="/login" method="POST">
             <h1 id="title">CREATE CHAT ROOM</h1>
             <div class="form-group">
-              <label for="exampleInputEmail1" id="deneme">Room-Name</label>
-              <input type="name" class="form-control" placeholder="Enter Name" name="name">
+              <label for="exampleInputEmail1" id="deneme" style=" margin-left: 50%; -ms-transform: translate(-50%, -50%);
+              transform: translate(-50%, -50%); margin-top: 30px;">Room-Name</label>
+              <input type="name" class="form-control" style="width: 50%; margin: 0 auto;" placeholder="Enter Name" name="name">
             </div>
             <div class="form-group">
-                <label for="exampleInputPassword1" id="deneme">User-Amount</label>
-                <input type="number" class="form-control" id="exampleInputPassword1" placeholder="Amount" name="amount" oninput="this.value = this.value.replace(/[^2-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                <label for="exampleInputPassword1" style=" margin-left: 50%; -ms-transform: translate(-50%, -50%);
+                transform: translate(-50%, -50%); margin-top: 30px;" id="deneme" >User-Amount</label>
+                <input type="number" class="form-control" style="width: 50%; margin: 0 auto;" id="exampleInputPassword1" placeholder="Amount" name="amount" oninput="this.value = this.value.replace(/[^2-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
             </div>
             <button type="submit" class="btn btn-success"id = "login">Login</button>
         </form>
@@ -84,6 +173,10 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-W8fXfP3gkOKtndU4JGtKDvXbO53Wy8SZCQHczT5FMiiqmQfUpWbYdTil/SxwZgAN" crossorigin="anonymous"></script>
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js" integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/" crossorigin="anonymous"></script>
-
+<script>
+    $(".hamburger").click(function(){
+        $(".hbuttons").stop().slideToggle();
+    });
+</script>
 </body>
 </html>

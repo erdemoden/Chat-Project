@@ -12,6 +12,9 @@ memberamount:{
 },
 chatid:{
     type:Number
+},
+chatowner:{
+    type:String
 }
 });
 module.exports = mongoose.Model("chats",chats);
