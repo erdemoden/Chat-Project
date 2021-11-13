@@ -11,6 +11,7 @@ const socketio = require("socket.io");
 const io = socketio(server);
 server.listen(process.env.PORT||1998);
 app.use(express.static('images'));
+app.use(express.static('scripts'));
 app.set('view-engine','ejs');
 app.use(express.json());
 app.use(cookieparser());

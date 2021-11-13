@@ -5,7 +5,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HomePage</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"> 
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+<link href="https://fonts.googleapis.com/css2?family=Monoton&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com"> 
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+    <link href="https://fonts.googleapis.com/css2?family=Rampart+One&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com"> 
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+<link href="https://fonts.googleapis.com/css2?family=Faster+One&family=Londrina+Shadow&family=Rampart+One&display=swap" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <style>
@@ -69,6 +78,7 @@
         color: whitesmoke;
         text-align: left;
         margin-left: 10px;
+        font-family: 'Londrina Shadow', cursive;
     }
     #create-room{
         display: none;
@@ -80,11 +90,23 @@
         border-radius: 25px;
         box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
     }
+    #titlebar{
+        display: flex;
+        width: 80%;
+        height: 60px;
+        margin: 0 auto;
+        margin-top: 50px;
+        padding: 0;
+        border: 5px;
+        border-style: solid solid none solid;
+        background-color: white;
+        align-items: center;
+    }
     #chat{
         width: 80%;
         height: 550px;
         margin: 0 auto;
-        margin-top: 50px;
+        /*margin-top: 50px;*/
         /*border: solid 5px;*/
         display: flex;
         /*border-radius: 25px;*/
@@ -93,12 +115,14 @@
     #isimler{
         background-color: white;
         flex-basis: 30%;
+        width: 35%;
         border: solid 5px black;
         border-right: solid 2px black;
         /*border-radius: 25px;*/
         /*display: none;*/
     }
     #chatscreen{
+        width: 65%;
         flex-basis: 70%;
         /*border: solid 1px hotpink;*/
     }
@@ -118,6 +142,25 @@
         float: left;
         padding-top: 0px;
         width: 10%;
+    }
+    #chatword{
+        font-family: 'Londrina Shadow', cursive;  
+        font-size: 50px; 
+        align-self:center;
+        margin-top: 15px; 
+        width:82%;
+        overflow-x: scroll;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    }
+    #chatword::-webkit-scrollbar { /* WebKit */
+    width: 0;
+    height: 0;
+}
+@media  screen and (max-width:1175px) {
+    #chatword{
+        width: 80%
+    }
     }
     @media  screen and (max-width:1330px) {
         #buttons{
@@ -159,6 +202,9 @@
         #buttons{
             margin-left: 20px;
         }
+        #chatword{
+        width: 76%
+    }
     }
     @media  screen and (max-width:990px) {
         .hamburger{
@@ -201,6 +247,9 @@
     #chat{
         width: 90%;
     }
+    #titlebar{
+        width: 90%;
+    }
     }
     @media screen and (max-width:390px){
     #limessage{
@@ -212,6 +261,9 @@
     #chat{
         width: 100%;
     }
+    #titlebar{
+        width: 100%;
+    }
     }
     @media screen and (min-width:1400px){
     #limessage{
@@ -221,6 +273,9 @@
             width: 20%;
     } 
     #chat{
+        width: 85%;
+    }
+    #titlebar{
         width: 85%;
     }
     #buttons{
@@ -235,6 +290,9 @@
             width: 20%;
     } 
     #chat{
+        width: 85%;
+    }
+    #titlebar{
         width: 85%;
     }
     #buttons{
@@ -254,6 +312,9 @@
     #chat{
         width: 65%;
     }
+    #titlebar{
+        width: 65%;
+    }
     #buttons{
         margin-left: 200px;
     }
@@ -266,6 +327,9 @@
             width: 20%;
     } 
     #chat{
+        width: 50%;
+    }
+    #titlebar{
         width: 50%;
     }
     #buttons{
@@ -282,6 +346,9 @@
     #chat{
         width: 45%;
     }
+    #titlebar{
+        width: 45%;
+    }
     #buttons{
         margin-left: 280px;
     }
@@ -294,6 +361,9 @@
             width: 20%;
     } 
     #chat{
+        width: 35%;
+    }
+    #titlebar{
         width: 35%;
     }
     #buttons{
@@ -310,6 +380,9 @@
     #chat{
         width: 30%;
     }
+    #titlebar{
+        width: 30%;
+    }
     #buttons{
         margin-left: 390px;
     }
@@ -317,12 +390,37 @@
         width: 25%;
     }
     }
+    @media  screen and (max-width:856px) {
+    #chatword{
+        width: 70%;
+    }
+    }
+    @media  screen and (max-width:693px) {
+    #chatword{
+        width: 65%;
+    }
+    }
+    @media  screen and (max-width:536px) {
+    #chatword{
+        width: 60%;
+    }
+    }
+    @media  screen and (max-width:470px) {
+    #chatword{
+        width: 50%;
+    }
+    }
+    @media  screen and (max-width:330px) {
+    #chatword{
+        width: 40%;
+    }
+    }
 </style>
 <body>
     <!-- MENU BAR -->
      <nav class="navbar navbar-dark bg-dark shadow">
          <button type="button" class="hamburger"><img src="/hamburger.png"></button>
-        <h1 class="white" style="display: block;">Hoşgeldin <%= ad.name %></h1>
+        <h1 class="white" style="display: block;">Welcome <%= ad.name %></h1>
         <button type="button" class="btn btn-success create" id="buttons">Create Your Chat Room</button>
         <button type="button" class="btn btn-success" id="buttons">Your Chat Rooms</button>
         <button type="button" class="btn btn-success" id="buttons">All Chat Rooms</button>
@@ -356,9 +454,15 @@
     <!-------------------------------------------------------------------------------------->
     
     <!-- CHAT SCREEN-->
+    <div id="titlebar">
+        <p id = "chatword">CHATjjkasdjkabsdLKJDSJHAJSHDKAJSHDAKJSHDKAJHSDJKAHSDJKAHSDJKAHSDJAHDKAHSDJKHASJDHASJKDHAKJSHDAKJSHDAKJSHDKAJHSDKAJHSDKAJHSDKJASHDKJAHSDKAJSHDAKJSHDKAJHSDKJAH</p>
+        <button type="button" class="btn btn-success create" style="margin-left: auto; margin-right: 5px;">Leave Chat Room</button>
+    </div>
     <div id="chat">
         <div id="isimler">
-            <button class="btn btn-success" style="height: 55px; width: 100%; border: solid 5px black; border-left: 2px solid black; border-top: 2px solid black;">Send</button>
+            <div class="alert alert-primary" role="alert" style="overflow-y: auto; overflow-x: auto; width: 100%;">
+                This is a primary alert—check it out! asdasdasdasdasdsdDSADSDASDASDASDASDASDASDASDsdafsdfkalkdfjwljwljqwldqlkdasd329428304820348
+              </div>
         </div>
         <div id="chatscreen">
         <div id="chatitself" style="width: 100%; height: 90%;">
@@ -378,17 +482,6 @@
     <!-- -------------------------------------------------------------------------->
    
     <!--JAVASCRIPT-->
-<script>
-    let create = document.getElementsByClassName("create");
-    let createroom = document.getElementById("create-room");
-    $(".hamburger").click(function(){
-        $(".hbuttons").stop().slideToggle();
-    });
-   Array.from(create).forEach(function(element){
-    element.addEventListener("click",()=>{
-        createroom.style.display = "block";
-    });
-   });
-</script>
+<script src="./homescript.js"></script>
 </body>
 </html>
