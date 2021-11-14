@@ -14,8 +14,9 @@ password:{
     required:[true,"Password Field Is Required"]
 },
 
-chat:[String]
+chat:[String],
 
+bannedchat:[String]
 })
 users2.pre('save',async function(next){
 user = this

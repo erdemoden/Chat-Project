@@ -15,6 +15,12 @@ else{
 res.redirect("/homepage");
 }
 });
+// Sign-Out Clear jwt
+router.get("/sign-out",(req,res)=>{
+res.clearCookie('jwt');
+res.send("session ended");
+});
+
 router.get('/sign-up',(req,res)=>{
 const token = req.cookies.jwt
 if(!token){

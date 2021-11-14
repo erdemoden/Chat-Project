@@ -18,6 +18,14 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <style>
+    #chatname{
+        width: 100%;
+        color: white;
+    }
+    #memeberamount{
+        width: 100%;
+        color: white;
+    }
     #deleteuser{
         width: 100%;
         height: 100px;
@@ -100,7 +108,7 @@
         margin-left: 10px;
         font-family: 'Londrina Shadow', cursive;
     }
-    #create-room{
+    .create-room{
         display: none;
         background-color: black;
         width: 95%;
@@ -111,7 +119,8 @@
         box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
     }
     #titlebar{
-        display: flex;
+        /*display: flex;*/
+        display: none;
         width: 80%;
         height: 60px;
         margin: 0 auto;
@@ -123,12 +132,13 @@
         align-items: center;
     }
     #chat{
+        /*display: flex;*/
+        display: none;
         width: 80%;
         height: 550px;
         margin: 0 auto;
         /*margin-top: 50px;*/
         /*border: solid 5px;*/
-        display: flex;
         /*border-radius: 25px;*/
         background-color: white;
     }
@@ -237,17 +247,17 @@
         }
     }
     @media screen and (min-width:660px) {
-    #create-room{
+    .create-room{
         width: 75%;
     }
     }
     @media screen and (min-width:860px) {
-    #create-room{
+    .create-room{
         width: 65%;
     }
     }
     @media screen and (min-width:960px) {
-    #create-room{
+    .create-room{
         width: 55%;
     }
     }
@@ -320,7 +330,7 @@
     #buttons{
         margin-left: 170px;
     }
-    #create-room{
+    .create-room{
         width: 35%;
     }
     }
@@ -408,7 +418,7 @@
     #buttons{
         margin-left: 390px;
     }
-    #create-room{
+    .create-room{
         width: 25%;
     }
     }
@@ -444,9 +454,9 @@
          <button type="button" class="hamburger"><img src="/hamburger.png"></button>
         <h1 class="white" style="display: block;">Welcome <%= ad.name %></h1>
         <button type="button" class="btn btn-success create" id="buttons">Create Your Chat Room</button>
-        <button type="button" class="btn btn-success" id="buttons">Your Chat Rooms</button>
+        <button type="button" class="btn btn-success create" id="buttons">Your Chat Rooms</button>
         <button type="button" class="btn btn-success" id="buttons">All Chat Rooms</button>
-        <button type="button" class="btn btn-success" id="buttons">Sign-Out</button>
+        <button type="button" class="btn btn-success sign-out" id="buttons">Sign-Out</button>
       </nav>
         <ul class="hbuttons">
             <li><button type="button" class="btn btn-success create">Create Your Chat Room</button></li>
@@ -457,7 +467,7 @@
     <!------------------------------------------------------------------------------------->
     
     <!-- CREATE ROOM BOX-->
-    <nav class="navbar navbar-dark bg-dark" id="create-room">
+    <nav class="navbar navbar-dark bg-dark create-room">
         <form id="form" action="/login" method="POST">
             <h1 id="title" style="margin-top: 40px;">CREATE CHAT ROOM</h1>
             <div class="form-group">
@@ -475,10 +485,21 @@
     </nav> 
     <!-------------------------------------------------------------------------------------->
     
+    <!-- CHAT ROOMS SCREEN  -->
+
+    <nav class="navbar navbar-dark bg-dark create-room">
+        <p id="chatname"></p>
+        <p id="memberamount">asdkjaskdjpıjdoapjsdkaşlsdk</p>
+        <button type="button" class="btn btn-success" style="margin: 0;position: absolute;left: 50%;margin-top: 30px;-ms-transform: translate(-50%, -50%);transform: translate(-50%, -50%); font-weight: bolder; margin-top: 430px;">JOIN THIS ROOM!</button>
+    </nav>
+
+
+<!---------------------------------------------------------------------------------------------->
+
     <!-- CHAT SCREEN-->
     <div id="titlebar">
-        <p id = "chatword">CHATjjkasdjkabsdLKJDSJHAJSHDKAJSHDAKJSHDKAJHSDJKAHSDJKAHSDJKAHSDJAHDKAHSDJKHASJDHASJKDHAKJSHDAKJSHDAKJSHDKAJHSDKAJHSDKAJHSDKJASHDKJAHSDKAJSHDAKJSHDKAJHSDKJAH</p>
-        <button type="button" class="btn btn-success create" style="margin-left: auto; margin-right: 5px;">Leave Chat Room</button>
+        <p id = "chatword" class="username">CHATjjkasdjkabsdLKJDSJHAJSHDKAJSHDAKJSHDKAJHSDJKAHSDJKAHSDJKAHSDJAHDKAHSDJKHASJDHASJKDHAKJSHDAKJSHDAKJSHDKAJHSDKAJHSDKAJHSDKJASHDKJAHSDKAJSHDAKJSHDKAJHSDKJAH</p>
+        <button type="button" class="btn btn-success leave" style="margin-left: auto; margin-right: 5px;">Leave Chat Room</button>
     </div>
     <div id="chat">
         <div id="isimler">
