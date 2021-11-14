@@ -4,14 +4,12 @@ let create = document.getElementsByClassName("create");
     let chatword = document.getElementById("chatword");
     let usersname = document.getElementById("users");
     let signoutbut = document.getElementsByClassName("sign-out")[0];
+    let signoutbut2 = document.getElementsByClassName("sign-out")[1];
+    let memberamount = document.getElementById("memberamount");
+    let chatname = document.getElementById("chatname");
     $(".hamburger").click(function(){
         $(".hbuttons").stop().slideToggle();
     });
-//    Array.from(create).forEach(function(element){
-//     element.addEventListener("click",()=>{
-//         createroom.style.display = "block";
-//     });
-//    });
 for(i = 0;i<create.length;i++){
     if(i==0){
         create[i].addEventListener("click",()=>{
@@ -26,6 +24,8 @@ for(i = 0;i<create.length;i++){
         });
     }
 }
+
+// ON WHELL FUNCTIONS
    chatword.onwheel = function(event){
     this.scrollLeft -= (event.deltaY);
     event.preventDefault();
@@ -34,8 +34,21 @@ for(i = 0;i<create.length;i++){
        this.scrollLeft -= (event.deltaY);
        event.preventDefault();
    }
+   chatname.onwheel = function(event){
+    this.scrollLeft -= (event.deltaY);
+    event.preventDefault();
+}
+memberamount.onwheel = function(event){
+    this.scrollLeft -= (event.deltaY);
+    event.preventDefault();
+}
+ //////////////////////////////////////////////////////////////////  
    signoutbut.addEventListener("click",async()=>{
    const response = await fetch("/sign-out");
    location.reload();
    });
+   signoutbut2.addEventListener("click",async()=>{
+    const response = await fetch("/sign-out");
+    location.reload();
+    });
    

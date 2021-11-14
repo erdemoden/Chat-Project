@@ -15,17 +15,42 @@
     <link rel="preconnect" href="https://fonts.googleapis.com"> 
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
 <link href="https://fonts.googleapis.com/css2?family=Faster+One&family=Londrina+Shadow&family=Rampart+One&display=swap" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"> 
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <style>
     #chatname{
-        width: 100%;
+        margin-top: 70px;
+        margin-left: 5%;
+        width: 95%;
         color: white;
+        font-family: 'Press Start 2P', cursive;
+        font-size:x-large;
+        overflow-x: scroll;
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; 
     }
-    #memeberamount{
-        width: 100%;
+    #chatname::-webkit-scrollbar { /* WebKit */
+    width: 0;
+    height: 0;
+}
+    #memberamount{
+        margin-top: 70px;
+        margin-left: 5%;
+        width: 95%;
         color: white;
+        font-family: 'Press Start 2P', cursive;
+        font-size:x-large;
+        overflow-x: scroll;
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; 
     }
+    #memberamount::-webkit-scrollbar { /* WebKit */
+    width: 0;
+    height: 0;
+}
     #deleteuser{
         width: 100%;
         height: 100px;
@@ -104,9 +129,12 @@
     }
     .white{
         color: whitesmoke;
+        width: 25%;
         text-align: left;
         margin-left: 10px;
-        font-family: 'Londrina Shadow', cursive;
+        margin-top: 10px;
+        font-family: 'Press Start 2P', cursive;
+        font-size:medium;
     }
     .create-room{
         display: none;
@@ -194,7 +222,7 @@
         width: 80%
     }
     }
-    @media  screen and (max-width:1330px) {
+    @media  screen and (max-width:1358px) {
         #buttons{
             margin-left: 80px;
         }
@@ -297,6 +325,11 @@
         width: 100%;
     }
     }
+    @media screen and (max-width:330px){
+        .white{
+            font-size: small;
+        }
+    }
     @media screen and (min-width:1400px){
     #limessage{
             width: 80%;
@@ -311,7 +344,7 @@
         width: 85%;
     }
     #buttons{
-        margin-left: 120px;
+        margin-left: 80px;
     }
     }
     @media screen and (min-width:1600px){
@@ -328,7 +361,7 @@
         width: 85%;
     }
     #buttons{
-        margin-left: 170px;
+        margin-left: 130px;
     }
     .create-room{
         width: 35%;
@@ -350,6 +383,9 @@
     #buttons{
         margin-left: 200px;
     }
+    .white{
+        font-size: x-large;
+    }
     }
     @media screen and (min-width:2100px){
     #limessage{
@@ -365,7 +401,7 @@
         width: 50%;
     }
     #buttons{
-        margin-left: 250px;
+        margin-left: 230px;
     }
     }
     @media screen and (min-width:2200px){
@@ -382,7 +418,7 @@
         width: 45%;
     }
     #buttons{
-        margin-left: 280px;
+        margin-left: 250px;
     }
     }
     @media screen and (min-width:2350px){
@@ -399,7 +435,7 @@
         width: 35%;
     }
     #buttons{
-        margin-left: 350px;
+        margin-left: 270px;
     }
     }
     @media screen and (min-width:2500px){
@@ -416,7 +452,7 @@
         width: 30%;
     }
     #buttons{
-        margin-left: 390px;
+        margin-left: 270px;
     }
     .create-room{
         width: 25%;
@@ -462,7 +498,7 @@
             <li><button type="button" class="btn btn-success create">Create Your Chat Room</button></li>
            <li><button type="button" class="btn btn-success">Your Chat Rooms</button></li>
            <li><button type="button" class="btn btn-success">All Chat Rooms</button></li>
-           <li><button type="button" class="btn btn-success">Sign-Out</button></li>
+           <li><button type="button" class="btn btn-success sign-out">Sign-Out</button></li>
            </ul>
     <!------------------------------------------------------------------------------------->
     
@@ -488,9 +524,9 @@
     <!-- CHAT ROOMS SCREEN  -->
 
     <nav class="navbar navbar-dark bg-dark create-room">
-        <p id="chatname"></p>
-        <p id="memberamount">asdkjaskdjpıjdoapjsdkaşlsdk</p>
-        <button type="button" class="btn btn-success" style="margin: 0;position: absolute;left: 50%;margin-top: 30px;-ms-transform: translate(-50%, -50%);transform: translate(-50%, -50%); font-weight: bolder; margin-top: 430px;">JOIN THIS ROOM!</button>
+        <p id="chatname">sdsdsadasdasdasasddsad</p>
+        <p id="memberamount">asdkjaskdjpıjdoapjsdkaşlsdkbnvhvvnv</p>
+        <button type="button" class="btn btn-success" style="margin: 0;position: absolute;left: 50%;margin-top: 30px;-ms-transform: translate(-50%, -50%);transform: translate(-50%, -50%); font-weight: bolder; margin-top: 240px;">JOIN THIS ROOM!</button>
     </nav>
 
 
