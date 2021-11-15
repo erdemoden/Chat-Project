@@ -6,6 +6,8 @@ const { rawListeners } = require("../users2");
 const bcyrpt = require('bcrypt');
 const {check} = require("./Auth"); 
 require("dotenv").config();
+
+// GET (/)
 router.get('/',(req,res)=>{
 let token = req.cookies.jwt;
 if(!token){
@@ -15,6 +17,7 @@ else{
 res.redirect("/homepage");
 }
 });
+
 // Sign-Out Clear jwt
 router.get("/sign-out",(req,res)=>{
 res.clearCookie('jwt');
@@ -34,6 +37,8 @@ router.get('/homepage',check,(req,res)=>{
     let ad = jwt.verify(req.cookies.jwt,process.env.secret); 
     res.render('homepage.ejs',{ad:ad});
 });
+
+// LOGIN
 router.post("/login",async(req,res)=>{
     let ad = req.body.name;
     try{
@@ -60,6 +65,8 @@ catch(e){
     res.render("index.ejs",{error:"Please Check Your Username And Password And Try Again"});
 }
 });
+
+// SIGN-UP
 router.post("/sign-up",async(req,res)=>{
 const user = new User(req.body);
 try{
@@ -78,6 +85,13 @@ else{
 }
 }
 });
+
+// CREATE-ROOM
+router.post("/create-room",async(req,res)=>{
+
+});
+
+
 
 
 

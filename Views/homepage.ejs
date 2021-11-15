@@ -21,8 +21,13 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <style>
+    .middle {
+        text-align: center;
+        font-size: larger;
+        font-weight: bolder;
+    }
     #chatname{
-        margin-top: 70px;
+        margin-top: 90px;
         margin-left: 5%;
         width: 95%;
         color: white;
@@ -37,7 +42,7 @@
     height: 0;
 }
     #memberamount{
-        margin-top: 70px;
+        margin-top: 120px;
         margin-left: 5%;
         width: 95%;
         color: white;
@@ -101,7 +106,7 @@
         font-weight: bolder;
         margin-left: 100px;
     }
-    #login{
+    #login,#create{
         margin: 0;
         position: absolute;
         left: 50%;
@@ -491,17 +496,22 @@
         <h1 class="white" style="display: block;">Welcome <%= ad.name %></h1>
         <button type="button" class="btn btn-success create" id="buttons">Create Your Chat Room</button>
         <button type="button" class="btn btn-success create" id="buttons">Your Chat Rooms</button>
-        <button type="button" class="btn btn-success" id="buttons">All Chat Rooms</button>
+        <button type="button" class="btn btn-success create" id="buttons">All Chat Rooms</button>
         <button type="button" class="btn btn-success sign-out" id="buttons">Sign-Out</button>
       </nav>
         <ul class="hbuttons">
             <li><button type="button" class="btn btn-success create">Create Your Chat Room</button></li>
-           <li><button type="button" class="btn btn-success">Your Chat Rooms</button></li>
-           <li><button type="button" class="btn btn-success">All Chat Rooms</button></li>
+           <li><button type="button" class="btn btn-success create">Your Chat Rooms</button></li>
+           <li><button type="button" class="btn btn-success create">All Chat Rooms</button></li>
            <li><button type="button" class="btn btn-success sign-out">Sign-Out</button></li>
            </ul>
     <!------------------------------------------------------------------------------------->
-    
+   
+    <!-- ALERTS AND SUCCESSES PART -->
+    <div class="middle" role="alert" style="display: none;"></div>
+
+    <!------------------------------------------------------------------------------------->
+
     <!-- CREATE ROOM BOX-->
     <nav class="navbar navbar-dark bg-dark create-room">
         <form id="form" action="/login" method="POST">
@@ -516,23 +526,30 @@
                 transform: translate(-50%, -50%); margin-top: 30px;" id="deneme" >User-Amount</label>
                 <input type="number" class="form-control" style="width: 50%; margin: 0 auto;" id="exampleInputPassword1" placeholder="Amount" name="amount" oninput="this.value = this.value.replace(/[^2-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
             </div>
-            <button type="submit" class="btn btn-success"id = "login">Login</button>
+            <button type="submit" class="btn btn-success"id = "create">Create</button>
         </form>
     </nav> 
     <!-------------------------------------------------------------------------------------->
     
-    <!-- CHAT ROOMS SCREEN  -->
-
+    <!-- YOUR CHAT ROOMS SCREEN  -->
     <nav class="navbar navbar-dark bg-dark create-room">
         <p id="chatname">sdsdsadasdasdasasddsad</p>
         <p id="memberamount">asdkjaskdjpıjdoapjsdkaşlsdkbnvhvvnv</p>
-        <button type="button" class="btn btn-success" style="margin: 0;position: absolute;left: 50%;margin-top: 30px;-ms-transform: translate(-50%, -50%);transform: translate(-50%, -50%); font-weight: bolder; margin-top: 240px;">JOIN THIS ROOM!</button>
+        <button type="button" class="btn btn-success" style="font-weight: bolder; margin-top: 140px; float: left; margin-left: 30px;">JOIN THIS ROOM!</button>
+        <button type="button" class="btn btn-danger" style="font-weight: bolder; margin-top: 140px; float: right; margin-right: 30px;">DELETE THIS ROOM!</button>
     </nav>
-
-
 <!---------------------------------------------------------------------------------------------->
 
-    <!-- CHAT SCREEN-->
+<!-- ALL CHAT ROOMS SCREEN -->
+
+<nav class="navbar navbar-dark bg-dark create-room">
+    <p id="chatname">sdsdsadasdasdasasddsad</p>
+    <p id="memberamount">asdkjaskdjpıjdoapjsdkaşlsdkbnvhvvnv</p>
+    <button type="button" class="btn btn-success" style="font-weight: bolder; margin-top: 140px; float: left; margin-left: 30px; margin-left: 50%; transform: translate(-50%, -50%);height: 100px; width: 300px;">JOIN THIS ROOM!</button>
+</nav>
+<!----------------------------------------------------------------------------------------------->
+   
+<!-- CHAT SCREEN-->
     <div id="titlebar">
         <p id = "chatword" class="username">CHATjjkasdjkabsdLKJDSJHAJSHDKAJSHDAKJSHDKAJHSDJKAHSDJKAHSDJKAHSDJAHDKAHSDJKHASJDHASJKDHAKJSHDAKJSHDAKJSHDKAJHSDKAJHSDKAJHSDKJASHDKJAHSDKAJSHDAKJSHDKAJHSDKJAH</p>
         <button type="button" class="btn btn-success leave" style="margin-left: auto; margin-right: 5px;">Leave Chat Room</button>

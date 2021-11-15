@@ -10,9 +10,6 @@ memberamount:{
     type:Number,
     required:true
 },
-chatid:{
-    type:Number
-},
 chatowner:{
     type:String
 }

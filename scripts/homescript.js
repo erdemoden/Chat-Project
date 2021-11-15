@@ -7,6 +7,7 @@ let create = document.getElementsByClassName("create");
     let signoutbut2 = document.getElementsByClassName("sign-out")[1];
     let memberamount = document.getElementById("memberamount");
     let chatname = document.getElementById("chatname");
+    let create = document.getElementById("create");
     $(".hamburger").click(function(){
         $(".hbuttons").stop().slideToggle();
     });
@@ -15,12 +16,21 @@ for(i = 0;i<create.length;i++){
         create[i].addEventListener("click",()=>{
             createroom[0].style.display = "block";
             createroom[1].style.display = "none";
+            createroom[2].style.display = "none";
         });
     }
     if(i==1){
         create[i].addEventListener("click",()=>{
             createroom[1].style.display = "block";
             createroom[0].style.display = "none";
+            createroom[2].style.display = "none";
+        });
+    }
+    if(i==2){
+        create[i].addEventListener("click",()=>{
+            createroom[2].style.display = "block";
+            createroom[0].style.display = "none";
+            createroom[1].style.display = "none";
         });
     }
 }
@@ -43,12 +53,21 @@ memberamount.onwheel = function(event){
     event.preventDefault();
 }
  //////////////////////////////////////////////////////////////////  
+ 
+ 
+ // CLICK EVENTS
+ 
    signoutbut.addEventListener("click",async()=>{
    const response = await fetch("/sign-out");
    location.reload();
    });
+
    signoutbut2.addEventListener("click",async()=>{
     const response = await fetch("/sign-out");
     location.reload();
+    });
+
+    create.addEventListener("click",()=>{
+        
     });
    
