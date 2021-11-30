@@ -2,12 +2,12 @@
 let create = document.getElementsByClassName("create");
     let createroom = document.getElementsByClassName("create-room");
     let chatword = document.getElementById("chatword");
-    let usersname = document.getElementById("users");
+    let usersname = document.getElementsByClassName("users");
     let signoutbut = document.getElementsByClassName("sign-out")[0];
     let signoutbut2 = document.getElementsByClassName("sign-out")[1];
     let memberamount = document.getElementById("memberamount");
     let chatname = document.getElementById("chatname");
-    let create = document.getElementById("create");
+    //let create = document.getElementById("create");
     $(".hamburger").click(function(){
         $(".hbuttons").stop().slideToggle();
     });
@@ -40,10 +40,12 @@ for(i = 0;i<create.length;i++){
     this.scrollLeft -= (event.deltaY);
     event.preventDefault();
    }
-   usersname.onwheel = function(event){
+   for(var i = 0;i<usersname.length;i++){
+   usersname[i].onwheel = function(event){
        this.scrollLeft -= (event.deltaY);
        event.preventDefault();
    }
+}
    chatname.onwheel = function(event){
     this.scrollLeft -= (event.deltaY);
     event.preventDefault();
