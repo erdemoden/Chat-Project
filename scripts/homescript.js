@@ -61,7 +61,7 @@ memberamount.onwheel = function(event){
  
    signoutbut.addEventListener("click",async()=>{
    const response = await fetch("/sign-out");
-   location.reload();
+   location.replace("/");
    });
 
    signoutbut2.addEventListener("click",async()=>{

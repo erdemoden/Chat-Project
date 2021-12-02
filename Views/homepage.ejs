@@ -494,7 +494,7 @@
     <!-- MENU BAR -->
      <nav class="navbar navbar-dark bg-dark shadow">
          <button type="button" class="hamburger"><img src="/hamburger.png"></button>
-        <h1 class="white" style="display: block;">Welcome <%= ad.name %></h1>
+        <h1 class="white" style="display: block;">Welcome <%= data.ad.name %></h1>
         <button type="button" class="btn btn-success create" id="buttons">Create Your Chat Room</button>
         <button type="button" class="btn btn-success create" id="buttons">Your Chat Rooms</button>
         <button type="button" class="btn btn-success create" id="buttons">All Chat Rooms</button>
@@ -509,13 +509,17 @@
     <!------------------------------------------------------------------------------------->
    
     <!-- ALERTS AND SUCCESSES PART -->
-    <div class="middle" role="alert" style="display: none;"></div>
-
+    <% if (data.error!=false && data.situation == 'danger') { %>
+    <div class="alert alert-danger middle" role="alert" id="middle"> <%= data.error %> </div>
+        <% } %>
+        <% if (data.error!=false && data.situation == 'success') { %>
+            <div class="alert alert-success middle" role="alert" id="middle"> <%= data.error %> </div>
+                <% } %>
     <!------------------------------------------------------------------------------------->
 
     <!-- CREATE ROOM BOX-->
     <nav class="navbar navbar-dark bg-dark create-room">
-        <form id="form" action="/login" method="POST">
+        <form id="form" action="/create-room" method="POST">
             <h1 id="title" style="margin-top: 40px;">CREATE CHAT ROOM</h1>
             <div class="form-group">
               <label for="exampleInputEmail1" id="deneme" style=" margin-left: 50%; -ms-transform: translate(-50%, -50%);

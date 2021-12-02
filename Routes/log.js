@@ -4,7 +4,9 @@ const User = require('../users2');
 const jwt = require('jsonwebtoken');
 const { rawListeners } = require("../users2");
 const bcyrpt = require('bcrypt');
-const {check} = require("./Auth"); 
+const {check} = require("./Auth");
+const users2 = require("../users2");
+let username; 
 require("dotenv").config();
 
 // GET (/)
@@ -35,7 +37,8 @@ else{
 });
 router.get('/homepage',check,(req,res)=>{
     let ad = jwt.verify(req.cookies.jwt,process.env.secret); 
-    res.render('homepage.ejs',{ad:ad});
+    username = ad;
+    res.render('homepage.ejs',{data:{ad:ad,error:false}});
 });
 
 // LOGIN
@@ -87,8 +90,25 @@ else{
 });
 
 // CREATE-ROOM
-router.post("/create-room",async(req,res)=>{
+router.post("/create-room",check,async(req,res)=>{
+if(req.body.amount>=2 && req.body.name!=''){
+res.render("homepage.ejs",{data:{ad:username,error:"Room Was Created!",situation:'success'}})
+}
+else{
+    res.render("homepage.ejs",{data:{ad:username,error:"Please Fill Both 2 Input Field!",situation:'danger'}});
+}
+});
 
+//sil 
+router.get("/delete",async(req,res)=>{
+    try{
+    await users2.remove({});
+    console.log("oldu");
+    res.send("taman");
+}
+    catch{
+        console.log("error");
+    }
 });
 
 
