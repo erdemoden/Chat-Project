@@ -14,4 +14,4 @@ chatowner:{
     type:String
 }
 });
-module.exports = mongoose.Model("chats",chats);
+module.exports = mongoose.model("chats",chats);

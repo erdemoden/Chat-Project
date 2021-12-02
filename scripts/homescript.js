@@ -1,3 +1,4 @@
+const { json } = require("body-parser");
 
 let create = document.getElementsByClassName("create");
     let createroom = document.getElementsByClassName("create-room");
@@ -7,6 +8,7 @@ let create = document.getElementsByClassName("create");
     let signoutbut2 = document.getElementsByClassName("sign-out")[1];
     let memberamount = document.getElementById("memberamount");
     let chatname = document.getElementById("chatname");
+    let createroombut = document.getElementsByClassName("createroom")[0];
     //let create = document.getElementById("create");
     $(".hamburger").click(function(){
         $(".hbuttons").stop().slideToggle();
@@ -71,5 +73,19 @@ memberamount.onwheel = function(event){
 
     create.addEventListener("click",()=>{
         
+    });
+
+    createroombut.addEventListener("click",async()=>{
+        await fetch("/create-room",{
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify({
+                chatname:document.getElementsByClassName("create-chat-name")[0].innerHTML,
+                memberamount:document.getElementsByClassName("amount")[0].innerHTML,
+                chatowner: document.getElementsByClassName("owner")[0].innerHTML.slice(8)
+            })
+        })
     });
    

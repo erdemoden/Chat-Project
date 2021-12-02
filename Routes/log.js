@@ -6,6 +6,7 @@ const { rawListeners } = require("../users2");
 const bcyrpt = require('bcrypt');
 const {check} = require("./Auth");
 const users2 = require("../users2");
+const chats = require("../chats");
 let username; 
 require("dotenv").config();
 
@@ -91,7 +92,9 @@ else{
 
 // CREATE-ROOM
 router.post("/create-room",check,async(req,res)=>{
-if(req.body.amount>=2 && req.body.name!=''){
+if(req.body.memberamount>=2 && req.body.chatname!=''){
+//const chat = new chats({chatname:req.body.name,memberamount:req.body.amount});
+
 res.render("homepage.ejs",{data:{ad:username,error:"Room Was Created!",situation:'success'}})
 }
 else{
