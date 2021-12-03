@@ -1,4 +1,3 @@
-const { json } = require("body-parser");
 
 let create = document.getElementsByClassName("create");
     let createroom = document.getElementsByClassName("create-room");
@@ -68,24 +67,23 @@ memberamount.onwheel = function(event){
 
    signoutbut2.addEventListener("click",async()=>{
     const response = await fetch("/sign-out");
-    location.reload();
+    location.replace("/");
     });
 
-    create.addEventListener("click",()=>{
-        
-    });
 
-    createroombut.addEventListener("click",async()=>{
-        await fetch("/create-room",{
-            method:'POST',
-            headers:{
-                'Content-Type':'application/json'
-            },
-            body:JSON.stringify({
-                chatname:document.getElementsByClassName("create-chat-name")[0].innerHTML,
-                memberamount:document.getElementsByClassName("amount")[0].innerHTML,
-                chatowner: document.getElementsByClassName("owner")[0].innerHTML.slice(8)
-            })
-        })
+    createroombut.addEventListener("click",()=>{         
+        let data = { "chatname":document.getElementsByClassName("create-chat-name")[0].value,
+                    "memberamount":parseInt(document.getElementsByClassName("amount")[0].value),
+                    "chatowner": document.getElementsByClassName("owner")[0].innerHTML.slice(8)}
+                    async function post(){
+                   const response = await fetch("/create-room",{
+                        method:'POST',
+                        body:JSON.stringify(data),
+                        headers:{
+                            'Content-type':'application/json; charset = UTF-8'
+                        }
+                    })
+                }
+                post();
     });
    

@@ -92,14 +92,14 @@ else{
 
 // CREATE-ROOM
 router.post("/create-room",check,async(req,res)=>{
-if(req.body.memberamount>=2 && req.body.chatname!=''){
-//const chat = new chats({chatname:req.body.name,memberamount:req.body.amount});
-
-res.render("homepage.ejs",{data:{ad:username,error:"Room Was Created!",situation:'success'}})
-}
-else{
-    res.render("homepage.ejs",{data:{ad:username,error:"Please Fill Both 2 Input Field!",situation:'danger'}});
-}
+// if(req.body.memberamount>=2 && req.body.chatname!=''){
+// //const chat = new chats({chatname:req.body.chatnamename,memberamount:req.body.memberamount,chatowner:req.body.chatowner});
+// res.render("homepage.ejs",{data:{ad:username,error:"Room Was Created!",situation:'success'}})
+// }
+// else{
+//     res.render("homepage.ejs",{data:{ad:username,error:"Please Fill Both 2 Input Field!",situation:'danger'}});
+// }
+res.render("homepage.ejs",{data:{ad:username,error:"Room Was Created!",situation:'success'}});
 });
 
 //sil 
