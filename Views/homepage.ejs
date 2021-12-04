@@ -494,7 +494,7 @@
     <!-- MENU BAR -->
      <nav class="navbar navbar-dark bg-dark shadow">
          <button type="button" class="hamburger"><img src="/hamburger.png"></button>
-        <h1 class="white owner" style="display: block;">Welcome <%= data.ad.name %></h1>
+        <h1 class="white owner" style="display: block;">Welcome <%= data.ad%></h1>
         <button type="button" class="btn btn-success create" id="buttons">Create Your Chat Room</button>
         <button type="button" class="btn btn-success create" id="buttons">Your Chat Rooms</button>
         <button type="button" class="btn btn-success create" id="buttons">All Chat Rooms</button>
@@ -531,20 +531,20 @@
 
     <!-- CREATE ROOM BOX-->
     <nav class="navbar navbar-dark bg-dark create-room">
-        <div id="form">
+        <form id="form" method="post" action="/create-room">
             <h1 id="title" style="margin-top: 40px;">CREATE CHAT ROOM</h1>
             <div class="form-group">
               <label for="exampleInputEmail1" id="deneme" style=" margin-left: 50%; -ms-transform: translate(-50%, -50%);
               transform: translate(-50%, -50%); margin-top: 60px;">Room-Name</label>
-              <input type="name" class="form-control create-chat-name" style="width: 50%; margin: 0 auto;" placeholder="Enter Name" name="name">
+              <input type="name" class="form-control create-chat-name" style="width: 50%; margin: 0 auto;" placeholder="Enter Name" name="chatname">
             </div>
             <div class="form-group">
                 <label for="exampleInputPassword1" style=" margin-left: 50%; -ms-transform: translate(-50%, -50%);
                 transform: translate(-50%, -50%); margin-top: 30px;" id="deneme" >User-Amount</label>
-                <input type="number" class="form-control amount" style="width: 50%; margin: 0 auto;" id="exampleInputPassword1" placeholder="Amount" name="amount" oninput="this.value = this.value.replace(/[^2-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                <input type="number" class="form-control amount" style="width: 50%; margin: 0 auto;" id="exampleInputPassword1" placeholder="Amount" name="memberamount" oninput="this.value = this.value.replace(/[^2-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
             </div>
             <button type="submit" class="btn btn-success createroom"id = "create">Create</button>
-        </div>
+        </form>
     </nav> 
     <!-------------------------------------------------------------------------------------->
     

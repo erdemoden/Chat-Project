@@ -7,7 +7,7 @@ let create = document.getElementsByClassName("create");
     let signoutbut2 = document.getElementsByClassName("sign-out")[1];
     let memberamount = document.getElementById("memberamount");
     let chatname = document.getElementById("chatname");
-    let createroombut = document.getElementsByClassName("createroom")[0];
+    //let createroombut = document.getElementsByClassName("createroom")[0];
     //let create = document.getElementById("create");
     $(".hamburger").click(function(){
         $(".hbuttons").stop().slideToggle();
@@ -71,19 +71,20 @@ memberamount.onwheel = function(event){
     });
 
 
-    createroombut.addEventListener("click",()=>{         
-        let data = { "chatname":document.getElementsByClassName("create-chat-name")[0].value,
-                    "memberamount":parseInt(document.getElementsByClassName("amount")[0].value),
-                    "chatowner": document.getElementsByClassName("owner")[0].innerHTML.slice(8)}
-                    async function post(){
-                   const response = await fetch("/create-room",{
-                        method:'POST',
-                        body:JSON.stringify(data),
-                        headers:{
-                            'Content-type':'application/json; charset = UTF-8'
-                        }
-                    })
-                }
-                post();
-    });
+    // createroombut.addEventListener("click",()=>{         
+    //     let data = { "chatname":document.getElementsByClassName("create-chat-name")[0].value,
+    //                 "memberamount":parseInt(document.getElementsByClassName("amount")[0].value),
+    //                 "chatowner": document.getElementsByClassName("owner")[0].innerHTML.slice(8)}
+    //                 async function post(){
+    //                const response = await fetch("/create-room",{
+    //                     method:'POST',
+    //                     body:JSON.stringify(data),
+    //                     headers:{
+    //                         'Content-type':'application/json; charset = UTF-8'
+    //                     }
+    //                 })
+    //             }
+    //             post();
+
+    // });
    

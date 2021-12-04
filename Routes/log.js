@@ -39,7 +39,7 @@ else{
 router.get('/homepage',check,(req,res)=>{
     let ad = jwt.verify(req.cookies.jwt,process.env.secret); 
     username = ad;
-    res.render('homepage.ejs',{data:{ad:ad,error:false}});
+    res.render('homepage.ejs',{data:{ad:ad.name,error:false}});
 });
 
 // LOGIN
@@ -91,15 +91,18 @@ else{
 });
 
 // CREATE-ROOM
-router.post("/create-room",check,async(req,res)=>{
-// if(req.body.memberamount>=2 && req.body.chatname!=''){
-// //const chat = new chats({chatname:req.body.chatnamename,memberamount:req.body.memberamount,chatowner:req.body.chatowner});
-// res.render("homepage.ejs",{data:{ad:username,error:"Room Was Created!",situation:'success'}})
-// }
-// else{
-//     res.render("homepage.ejs",{data:{ad:username,error:"Please Fill Both 2 Input Field!",situation:'danger'}});
-// }
-res.render("homepage.ejs",{data:{ad:username,error:"Room Was Created!",situation:'success'}});
+router.post("/create-room",async(req,res)=>{
+let ad = jwt.verify(req.cookies.jwt,process.env.secret);
+if(req.body.memberamount>=2 && req.body.chatname!=''){
+const chat = new chats({chatname:req.body.chatname,memberamount:req.body.memberamount,chatowner:ad.name});
+await users2.updateOne({name:ad.name},{chat:chat._id});
+res.render("homepage.ejs",{data:{ad:ad.name,error:"Room Was Created!",situation:'success'}})
+}
+else{
+    res.render("homepage.ejs",{data:{ad:ad.name,error:"Please Fill Both 2 Input Field!",situation:'danger'}});
+}
+// res.json({"Tamam":"Oldu"});
+//res.render("homepage.ejs",{data:{ad:username,error:"Room Was Created!",situation:'success'}});
 });
 
 //sil 
