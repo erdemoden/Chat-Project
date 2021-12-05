@@ -108,9 +108,10 @@ else{
 //sil 
 router.get("/delete",async(req,res)=>{
     try{
-    await users2.remove({});
-    console.log("oldu");
-    res.send("taman");
+   //await users2.remove({});
+   let deneme = await users2.find({}).populate('chat');
+    console.log(deneme);
+    //res.send("deneme");
 }
     catch{
         console.log("error");

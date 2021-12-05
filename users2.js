@@ -14,9 +14,9 @@ password:{
     required:[true,"Password Field Is Required"]
 },
 
-chat:{type:schema.Types.ObjectId,ref:'chats'},
+chat:[String],
 
-bannedchat:{type:schema.Types.ObjectId,ref:'chats'}
+bannedchat:[String]
 })
 users2.pre('save',async function(next){
 user = this
