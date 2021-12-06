@@ -7,27 +7,29 @@ let create = document.getElementsByClassName("create");
     let signoutbut2 = document.getElementsByClassName("sign-out")[1];
     let memberamount = document.getElementById("memberamount");
     let chatname = document.getElementById("chatname");
+    let yourrooms1 = document.getElementsByClassName("yourrooms")[0];
+    let yourrooms2 = document.getElementsByClassName("yourrooms")[1];
     //let createroombut = document.getElementsByClassName("createroom")[0];
     //let create = document.getElementById("create");
     $(".hamburger").click(function(){
         $(".hbuttons").stop().slideToggle();
     });
 for(i = 0;i<create.length;i++){
-    if(i==0){
+    if(i==0||i==3){
         create[i].addEventListener("click",()=>{
             createroom[0].style.display = "block";
             createroom[1].style.display = "none";
             createroom[2].style.display = "none";
         });
     }
-    if(i==1){
+    if(i==1||i==4){
         create[i].addEventListener("click",()=>{
             createroom[1].style.display = "block";
             createroom[0].style.display = "none";
             createroom[2].style.display = "none";
         });
     }
-    if(i==2){
+    if(i==2||i==5){
         create[i].addEventListener("click",()=>{
             createroom[2].style.display = "block";
             createroom[0].style.display = "none";
@@ -58,8 +60,7 @@ memberamount.onwheel = function(event){
  //////////////////////////////////////////////////////////////////  
  
  
- // CLICK EVENTS
- 
+ //  SIGN-OUT
    signoutbut.addEventListener("click",async()=>{
    const response = await fetch("/sign-out");
    location.replace("/");
@@ -71,20 +72,15 @@ memberamount.onwheel = function(event){
     });
 
 
-    // createroombut.addEventListener("click",()=>{         
-    //     let data = { "chatname":document.getElementsByClassName("create-chat-name")[0].value,
-    //                 "memberamount":parseInt(document.getElementsByClassName("amount")[0].value),
-    //                 "chatowner": document.getElementsByClassName("owner")[0].innerHTML.slice(8)}
-    //                 async function post(){
-    //                const response = await fetch("/create-room",{
-    //                     method:'POST',
-    //                     body:JSON.stringify(data),
-    //                     headers:{
-    //                         'Content-type':'application/json; charset = UTF-8'
-    //                     }
-    //                 })
-    //             }
-    //             post();
+// Your-rooms
+yourrooms1.addEventListener("click",async()=>{
+const response = await fetch("/your-rooms");
+console.log(response);
+});
 
-    // });
+yourrooms2.addEventListener("click",async()=>{
+
+});
+
+
    

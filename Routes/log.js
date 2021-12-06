@@ -7,6 +7,7 @@ const bcyrpt = require('bcrypt');
 const {check} = require("./Auth");
 const users2 = require("../users2");
 const chats = require("../chats");
+const { json } = require("body-parser");
 let username; 
 require("dotenv").config();
 
@@ -94,7 +95,8 @@ else{
 router.post("/create-room",async(req,res)=>{
 let ad = jwt.verify(req.cookies.jwt,process.env.secret);
 if(req.body.memberamount>=2 && req.body.chatname!=''){
-const chat = new chats({chatname:req.body.chatname,memberamount:req.body.memberamount,chatowner:ad.name});
+const chat = new chats(req.body);
+await chat.save();
 await users2.updateOne({name:ad.name},{chat:chat._id});
 res.render("homepage.ejs",{data:{ad:ad.name,error:"Room Was Created!",situation:'success'}})
 }
@@ -104,6 +106,25 @@ else{
 // res.json({"Tamam":"Oldu"});
 //res.render("homepage.ejs",{data:{ad:username,error:"Room Was Created!",situation:'success'}});
 });
+
+
+// YOUR ROOMS
+router.get("/your-rooms",async(req,res)=>{
+try{
+let mychats = await User.find({},{chat:1,_id:0});
+let array = mychats[0].chat;
+res.send(mychats[0].chat);
+console.log(array);
+}
+catch{
+    console.log("error");
+}
+});
+
+
+
+
+
 
 //sil 
 router.get("/delete",async(req,res)=>{
