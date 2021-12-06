@@ -81,6 +81,4 @@ console.log(response);
 yourrooms2.addEventListener("click",async()=>{
 
 });
-
-
    

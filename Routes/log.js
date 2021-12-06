@@ -92,13 +92,15 @@ else{
 });
 
 // CREATE-ROOM
-router.post("/create-room",async(req,res)=>{
+router.post("/create-room",check,async(req,res)=>{
 let ad = jwt.verify(req.cookies.jwt,process.env.secret);
 if(req.body.memberamount>=2 && req.body.chatname!=''){
 const chat = new chats(req.body);
 await chat.save();
-await users2.updateOne({name:ad.name},{chat:chat._id});
-res.render("homepage.ejs",{data:{ad:ad.name,error:"Room Was Created!",situation:'success'}})
+let Gonder = await bcyrpt.hash("başarılı",8);
+await users2.updateOne({name:ad.name},{$push:{chat:chat._id}});
+res.cookie('success',Gonder);
+res.redirect("/create-room-s");
 }
 else{
     res.render("homepage.ejs",{data:{ad:ad.name,error:"Please Fill Both 2 Input Field!",situation:'danger'}});
@@ -121,7 +123,17 @@ catch{
 }
 });
 
-
+router.get("/create-room-s",(req,res)=>{
+let ischeck = bcyrpt.compare(req.cookies.success,'başarılı');
+let ad = jwt.verify(req.cookies.jwt,process.env.secret);
+if(req.cookies.success){
+res.clearCookie("success");
+res.render("homepage.ejs",{data:{ad:ad.name,error:"Room Was Created!",situation:'success'}})
+}
+else{
+    res.redirect("/");
+}
+})
 
 
 
