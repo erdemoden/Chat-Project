@@ -97,16 +97,16 @@ let ad = jwt.verify(req.cookies.jwt,process.env.secret);
 if(req.body.memberamount>=2 && req.body.chatname!=''){
 const chat = new chats(req.body);
 await chat.save();
-let Gonder = await bcyrpt.hash("başarılı",8);
+let Gonder = await bcyrpt.hash("başarılı",5);
 await users2.updateOne({name:ad.name},{$push:{chat:chat._id}});
 res.cookie('success',Gonder);
 res.redirect("/create-room-s");
 }
 else{
-    res.render("homepage.ejs",{data:{ad:ad.name,error:"Please Fill Both 2 Input Field!",situation:'danger'}});
+    let Gonder2 = await bcyrpt.hash("hatalı",5);
+    res.cookie('danger',Gonder2);
+    res.redirect("/create-room-s");
 }
-// res.json({"Tamam":"Oldu"});
-//res.render("homepage.ejs",{data:{ad:username,error:"Room Was Created!",situation:'success'}});
 });
 
 
@@ -123,16 +123,37 @@ catch{
 }
 });
 
-router.get("/create-room-s",(req,res)=>{
-let ischeck = bcyrpt.compare(req.cookies.success,'başarılı');
+router.get("/create-room-s",async(req,res)=>{
+let ischeck1 = "";
+if(req.cookies.danger){
+    ischeck1 = await bcyrpt.compare("hatalı",req.cookies.danger);
+    let ad1 = jwt.verify(req.cookies.jwt,process.env.secret);
+    if(ischeck1){
+        res.clearCookie("danger");
+        res.render("homepage.ejs",{data:{ad:ad1.name,error:"Please Fill Both 2 Field",situation:'danger'}});
+        }
+        else{
+            res.redirect("/");
+        }
+}
+else if(!ischeck1&&!req.cookies.success){
+    res.redirect("/");
+}
+else if(req.cookies.success&&!req.cookies.danger){
+let ischeck = await bcyrpt.compare("başarılı",req.cookies.success);
 let ad = jwt.verify(req.cookies.jwt,process.env.secret);
-if(req.cookies.success){
+if(ischeck){
 res.clearCookie("success");
 res.render("homepage.ejs",{data:{ad:ad.name,error:"Room Was Created!",situation:'success'}})
 }
 else{
     res.redirect("/");
 }
+}
+else{
+    res.redirect("/");
+}
+
 })
 
 
