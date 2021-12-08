@@ -112,11 +112,19 @@ else{
 
 // YOUR ROOMS
 router.get("/your-rooms",async(req,res)=>{
+let chatarray = [];
 try{
 let mychats = await User.find({},{chat:1,_id:0});
 let array = mychats[0].chat;
-res.send(mychats[0].chat);
-console.log(array);
+let send = await chats.find({_id:{$in:array}},{_id:1,chatname:1,memberamount:1});
+for( var i = 0;i<array.length;i++){
+    chatarray[i] = {
+        "id":array[i],
+        "chatname":send[i].chatname,
+        "memberamount":send[i].memberamount
+    }
+}
+res.json(chatarray);
 }
 catch{
     console.log("error");

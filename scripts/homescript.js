@@ -70,8 +70,6 @@ memberamount.onwheel = function(event){
     const response = await fetch("/sign-out");
     location.replace("/");
     });
-
-
 // Your-rooms
 yourrooms1.addEventListener("click",async()=>{
 const response = await fetch("/your-rooms");
