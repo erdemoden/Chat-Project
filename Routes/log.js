@@ -113,8 +113,10 @@ else{
 // YOUR ROOMS
 router.get("/your-rooms",async(req,res)=>{
 let chatarray = [];
+let ad = jwt.verify(req.cookies.jwt,process.env.secret); 
+    username = ad;
 try{
-let mychats = await User.find({},{chat:1,_id:0});
+let mychats = await User.find({name:ad.name},{chat:1,_id:0});
 let array = mychats[0].chat;
 let send = await chats.find({_id:{$in:array}},{_id:1,chatname:1,memberamount:1});
 for( var i = 0;i<array.length;i++){
@@ -130,7 +132,33 @@ catch{
     console.log("error");
 }
 });
+//////////////////////////////////////////////////////////////////
 
+
+// ALL ROOMS
+router.get("/all-rooms",async(req,res)=>{
+    let chatarray = [];
+    try{
+    let mychats = await User.find({},{chat:1,_id:0});
+    let array = mychats[0].chat;
+    let send = await chats.find({_id:{$in:array}},{_id:1,chatname:1,memberamount:1});
+    for( var i = 0;i<array.length;i++){
+        chatarray[i] = {
+            "id":array[i],
+            "chatname":send[i].chatname,
+            "memberamount":send[i].memberamount
+        }
+    }
+    res.json(chatarray);
+    }
+    catch{
+        console.log("error");
+    }
+    });
+////////////////////////////////////////////////////////////////
+
+
+// middleware like something to prevent several form sending
 router.get("/create-room-s",async(req,res)=>{
 let ischeck1 = "";
 if(req.cookies.danger){
@@ -163,6 +191,7 @@ else{
 }
 
 })
+////////////////////////////////////////////////////////////
 
 
 
