@@ -70,13 +70,72 @@ memberamount.onwheel = function(event){
     const response = await fetch("/sign-out");
     location.replace("/");
     });
-// Your-rooms
+
+
+// YOUR ROOMS
 yourrooms1.addEventListener("click",async()=>{
 const response = await fetch("/your-rooms");
-console.log(response);
+const jsonobj = await response.json();
+console.log(jsonobj.length);
+for(var i = 0;i<jsonobj.length;i++){
+let all = document.createElement('nav');
+let chat = document.createElement('p');
+let membercount = document.createElement('p');
+let join = document.createElement('button');
+let deleteroom = document.createElement('button');
+all.className = "navbar navbar-dark bg-dark create-room1";
+chat.id = "chatname";
+membercount.id = "memberamount";
+join.className = "btn btn-success";
+deleteroom.className = "btn btn-danger";
+join.setAttribute("style","font-weight:bolder;margin-top:140px;float:left;margin-left:30px;");
+deleteroom.setAttribute("style","font-weight:bolder;margin-top:140px;float:right;margin-right:30px;");
+chat.innerHTML = "Room Name: "+jsonobj[i].chatname;
+membercount.innerHTML = "Member Amount: "+jsonobj[i].memberamount;
+join.id = jsonobj[i].id;
+deleteroom.id = jsonobj[i].id;
+join.innerHTML = "JOIN THIS ROOM!";
+deleteroom.innerHTML = "DELETE THIS ROOM!";
+all.appendChild(chat);
+all.appendChild(membercount);
+all.appendChild(join);
+all.appendChild(deleteroom);
+document.body.appendChild(all);
+document.getElementsByClassName("create-room1")[i].style.display = "block";
+}
 });
-
 yourrooms2.addEventListener("click",async()=>{
-
+    const response = await fetch("/your-rooms");
+    const jsonobj = await response.json();
+    for(var i = 0;i<jsonobj.length;i++){
+    let all = document.createElement('nav');
+    let chat = document.createElement('p');
+    let membercount = document.createElement('p');
+    let join = document.createElement('button');
+    let deleteroom = document.createElement('button');
+    all.className = "navbar navbar-dark bg-dark create-room";
+    chat.id = "chatname";
+    membercount.id = "memberamount";
+    join.className = "btn btn-success";
+    deleteroom.className = "btn btn-danger";
+    join.setAttribute("style","font-weight:bolder;margin-top:140px;float:left;margin-left:30px;");
+    deleteroom.setAttribute("style","font-weight:bolder;margin-top:140px;float:right;margin-right:30px;");
+    chat.innerHTML = "Room Name: "+jsonobj[i].chatname;
+    membercount.innerHTML = "Member Amount: "+jsonobj[i].memberamount;
+    join.id = jsonobj[i].id;
+    deleteroom.id = jsonobj[i].id;
+    join.innerHTML = "JOIN THIS ROOM!";
+    deleteroom.innerHTML = "DELETE THIS ROOM!";
+    document.getElementsByClassName("create-room")[i].style.display = "block";
+    all.appendChild(chat);
+    all.appendChild(membercount);
+    all.appendChild(join);
+    all.appendChild(deleteroom);
+    document.body.appendChild(all);
+    }
 });
+
+// ALL ROOMS
+
+
    
