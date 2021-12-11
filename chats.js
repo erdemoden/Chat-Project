@@ -12,6 +12,10 @@ memberamount:{
 },
 chatowner:{
     type:String
+},
+userinroom:{
+    type:Number,
+    default:0
 }
 });
 module.exports = mongoose.model("chats",chats);

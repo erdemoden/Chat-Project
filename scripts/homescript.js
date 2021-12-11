@@ -1,4 +1,4 @@
-
+// ALL VARIABLES
 let create = document.getElementsByClassName("create");
     let createroom = document.getElementsByClassName("create-room");
     let chatword = document.getElementById("chatword");
@@ -9,12 +9,19 @@ let create = document.getElementsByClassName("create");
     let chatname = document.getElementById("chatname");
     let yourrooms = document.getElementsByClassName("yourrooms");
     let allrooms = document.getElementsByClassName("allrooms");
+    let chatscreen = document.getElementById("chat");
+    let chattitle = document.getElementById("titlebar");
+    let joinroom = document.getElementsByClassName("join");
     const socket = io();
+///////////////////////////////////////////////////////////////
+
+// HAMBURGER MENU
     $(".hamburger").click(function(){
         $(".hbuttons").stop().slideToggle();
     });
+///////////////////////////////////////////////////
 
-
+// CREATE YOUR ROOM BUTTON
 create[0].addEventListener("click",()=>{
     if(document.getElementsByClassName("create-room1").length>0){
         document.querySelectorAll('.create-room1').forEach(e => e.remove());
@@ -28,9 +35,8 @@ create[3].addEventListener("click",()=>{
 createroom[0].style.display = "block";
 });
  //////////////////////////////////////////////////////////////////  
- 
- 
- //  SIGN-OUT
+
+ //  SIGN-OUT BUTTON
    signoutbut.addEventListener("click",async()=>{
    const response = await fetch("/sign-out");
    location.replace("/");
@@ -40,7 +46,6 @@ createroom[0].style.display = "block";
     const response = await fetch("/sign-out");
     location.replace("/");
     });
-
 ////////////////////////////////////////////////////////////////////////
 
 // YOUR ROOMS
@@ -49,6 +54,9 @@ for(var i = 0;i<yourrooms.length;i++){
         yourrooms[i].addEventListener("click",async()=>{
             if(document.getElementsByClassName("create-room1").length>0){
                 document.querySelectorAll('.create-room1').forEach(e => e.remove());
+        }
+        if(document.getElementsByClassName("create-room").length>0){
+            document.querySelectorAll('.create-room').forEach(e => e.remove());
         }
             const response = await fetch("/your-rooms");
             const jsonobj = await response.json();
@@ -62,8 +70,8 @@ for(var i = 0;i<yourrooms.length;i++){
             all.className = "navbar navbar-dark bg-dark create-room1";
             chat.id = "chatname";
             membercount.id = "memberamount";
-            join.className = "btn btn-success";
-            deleteroom.className = "btn btn-danger";
+            join.className = "btn btn-success join";
+            deleteroom.className = "btn btn-danger deleteroom";
             join.setAttribute("style","font-weight:bolder;margin-top:85px;float:left;margin-left:30px;");
             deleteroom.setAttribute("style","font-weight:bolder;margin-top:85px;float:right;margin-right:30px;");
             chat.innerHTML = "Room Name: "+jsonobj[i].chatname;
@@ -72,6 +80,12 @@ for(var i = 0;i<yourrooms.length;i++){
             deleteroom.id = jsonobj[i].id;
             join.innerHTML = "JOIN THIS ROOM!";
             deleteroom.innerHTML = "DELETE THIS ROOM!";
+
+            // JOIN BUTTON CLICKED
+                join.addEventListener("click",()=>{
+                   socket.emit("join",join.id);
+                });
+            /////////////////////////////////////////////
             all.appendChild(chat);
             all.appendChild(membercount);
             all.appendChild(join);
@@ -99,6 +113,9 @@ for(var i = 0;i<allrooms.length;i++){
             if(document.getElementsByClassName("create-room1").length>0){
                 document.querySelectorAll('.create-room1').forEach(e => e.remove());
             }
+            if(document.getElementsByClassName("create-room").length>0){
+                document.querySelectorAll('.create-room').forEach(e => e.remove());
+            }
             const response = await fetch("/all-rooms");
             const jsonobj = await response.json();
             console.log(jsonobj.length);
@@ -110,7 +127,7 @@ for(var i = 0;i<allrooms.length;i++){
             all.className = "navbar navbar-dark bg-dark create-room1";
             chat.id = "chatname";
             membercount.id = "memberamount";
-            join.className = "btn btn-success";
+            join.className = "btn btn-success join";
             join.setAttribute("style","font-weight: bolder; margin-top: 85px; float: left; margin-left: 30px; margin-left: 50%; transform: translate(-50%, -50%);height: 100px; width: 300px;");
             chat.innerHTML = "Room Name: "+jsonobj[i].chatname;
             membercount.innerHTML = "Available Space: "+jsonobj[i].memberamount;
@@ -157,7 +174,9 @@ memberamount.onwheel = function(event){
 //////////////////////////////////////////////////////////////////
 
 
-// CHAT PART
+// CHAT PART -SOCKET.IO
+
+
 
 
 

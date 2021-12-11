@@ -19,3 +19,13 @@ app.use(express.urlencoded({extended:true}));
 
 
 app.use('/',log);
+
+
+
+// SOCKET-IO
+
+io.on("connection",(socket)=>{
+    socket.on("join",(id)=>{
+        console.log(id);
+    })
+})

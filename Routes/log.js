@@ -8,6 +8,8 @@ const {check} = require("./Auth");
 const users2 = require("../users2");
 const chats = require("../chats");
 const { json } = require("body-parser");
+const req = require("express/lib/request");
+const res = require("express/lib/response");
 let username; 
 require("dotenv").config();
 
@@ -192,6 +194,19 @@ else{
 
 })
 ////////////////////////////////////////////////////////////
+
+// CHECK ROOM AVAILABILITY
+
+router.post("/check-room",check,async()=>{
+let chat = await chats.find({_id:req.body.id},{userinroom:1,memberamount:1});
+if(chat.userinroom == memberamount){
+    res.json({"success":"false"});
+}
+else{
+    await chats.updateOne({_id:req.body.id},{});
+    res.json({"success":"true"});
+}
+});
 
 
 
