@@ -7,7 +7,7 @@ const bcyrpt = require('bcrypt');
 const {check} = require("./Auth");
 const users2 = require("../users2");
 const chats = require("../chats");
-const { json } = require("body-parser");
+//const { json } = require("body-parser");
 const req = require("express/lib/request");
 const res = require("express/lib/response");
 let username; 
@@ -113,7 +113,7 @@ else{
 
 
 // YOUR ROOMS
-router.get("/your-rooms",async(req,res)=>{
+router.get("/your-rooms",check,async(req,res)=>{
 let chatarray = [];
 let ad = jwt.verify(req.cookies.jwt,process.env.secret); 
     username = ad;
@@ -138,7 +138,7 @@ catch{
 
 
 // ALL ROOMS
-router.get("/all-rooms",async(req,res)=>{
+router.get("/all-rooms",check,async(req,res)=>{
     let chatarray = [];
     try{
     let mychats = await User.find({},{chat:1,_id:0});
@@ -196,20 +196,18 @@ else{
 ////////////////////////////////////////////////////////////
 
 // CHECK ROOM AVAILABILITY
-
 router.post("/check-room",check,async()=>{
-let chat = await chats.find({_id:req.body.id},{userinroom:1,memberamount:1});
-if(chat.userinroom == memberamount){
-    res.json({"success":"false"});
-}
-else{
-    await chats.updateOne({_id:req.body.id},{});
-    res.json({"success":"true"});
-}
+// let chat = await chats.find({_id:req.body.id},{userinroom:1,memberamount:1});
+// if(chat.userinroom == memberamount){
+//     res.json({"success":"false"});
+// }
+// else{
+//     await chats.updateOne({_id:req.body.id},{});
+//     res.json({"success":"true"});
+// }
+console.log(req.body.id);
 });
-
-
-
+////////////////////////////////////////////////////////////////
 
 //sil 
 router.get("/delete",async(req,res)=>{

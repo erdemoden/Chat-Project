@@ -56,7 +56,7 @@ for(var i = 0;i<yourrooms.length;i++){
                 document.querySelectorAll('.create-room1').forEach(e => e.remove());
         }
         if(document.getElementsByClassName("create-room").length>0){
-            document.querySelectorAll('.create-room').forEach(e => e.remove());
+            document.querySelectorAll('.create-room').forEach(e => e.style.display="none");
         }
             const response = await fetch("/your-rooms");
             const jsonobj = await response.json();
@@ -82,8 +82,16 @@ for(var i = 0;i<yourrooms.length;i++){
             deleteroom.innerHTML = "DELETE THIS ROOM!";
 
             // JOIN BUTTON CLICKED
-                join.addEventListener("click",()=>{
-                   socket.emit("join",join.id);
+                join.addEventListener("click",async()=>{
+                   let postdata = await fetch("/check-room",{
+                       method:'POST',
+                       headers:{
+                           'Content-Type':'application/json'
+                       },
+                       body:JSON.stringify({"id":join.id})
+                   });
+                   let jsonres = await postdata.json();
+                   console.log(jsonres);
                 });
             /////////////////////////////////////////////
             all.appendChild(chat);
@@ -114,7 +122,7 @@ for(var i = 0;i<allrooms.length;i++){
                 document.querySelectorAll('.create-room1').forEach(e => e.remove());
             }
             if(document.getElementsByClassName("create-room").length>0){
-                document.querySelectorAll('.create-room').forEach(e => e.remove());
+                document.querySelectorAll('.create-room').forEach(e => e.style.display = "none");
             }
             const response = await fetch("/all-rooms");
             const jsonobj = await response.json();

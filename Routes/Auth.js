@@ -15,7 +15,7 @@ let control = jwt.verify(token,process.env.secret,(err,dtoken)=>{
 }
 else{
     console.log("kullanıcı bulunamadı");
-    res.redirect('/');
+    res.render("index.ejs",{error:false});
 }
 }
 module.exports = {check};
