@@ -27,6 +27,10 @@ app.use('/',log);
 io.on("connection",(socket)=>{
     socket.on("join",(id)=>{
         socket.join(id);
-        socket.emit("createchat");
-    })
+        socket.emit("createchat",id);
+        console.log("bağlandık-socket");
+    });
+    socket.on("disconnect",()=>{
+        console.log("bağlantı gitti");
+    });
 })
