@@ -1,3 +1,4 @@
+
 // ALL VARIABLES
 let create = document.getElementsByClassName("create");
     let createroom = document.getElementsByClassName("create-room");
@@ -86,12 +87,23 @@ for(var i = 0;i<yourrooms.length;i++){
                    let postdata = await fetch("/check-room",{
                        method:'POST',
                        headers:{
+                            'Accept': 'application/json',
                            'Content-Type':'application/json'
                        },
                        body:JSON.stringify({"id":join.id})
                    });
                    let jsonres = await postdata.json();
-                   console.log(jsonres);
+                   if(jsonres.success == "true"){
+                       socket.emit("join",join.id);
+                   }
+                   else{
+                    swal({
+                        title: "ROOM IS NOT AVAILABLE!",
+                        text: "This Room's Capacity Is Full! ",
+                        icon: "error",
+                        button: "Close This Alert",
+                      });
+                   }
                 });
             /////////////////////////////////////////////
             all.appendChild(chat);

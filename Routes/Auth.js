@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-let check = function(req,res,next){
+const check = function(req,res,next){
 let token = req.cookies.jwt;
 if(token){
 let control = jwt.verify(token,process.env.secret,(err,dtoken)=>{
@@ -14,7 +14,6 @@ let control = jwt.verify(token,process.env.secret,(err,dtoken)=>{
 });
 }
 else{
-    console.log("kullanıcı bulunamadı");
     res.render("index.ejs",{error:false});
 }
 }

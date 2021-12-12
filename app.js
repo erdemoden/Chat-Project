@@ -26,6 +26,7 @@ app.use('/',log);
 
 io.on("connection",(socket)=>{
     socket.on("join",(id)=>{
-        console.log(id);
+        socket.join(id);
+        socket.emit("createchat");
     })
 })

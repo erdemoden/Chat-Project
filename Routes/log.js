@@ -16,11 +16,11 @@ require("dotenv").config();
 // GET (/)
 router.get('/',(req,res)=>{
 let token = req.cookies.jwt;
-if(!token){
-    res.render("index.ejs",{error:false});
+if(token){
+    res.redirect("/homepage");
 }
 else{
-res.redirect("/homepage");
+    res.render("index.ejs",{error:false});
 }
 });
 
@@ -195,17 +195,16 @@ else{
 })
 ////////////////////////////////////////////////////////////
 
-// CHECK ROOM AVAILABILITY
-router.post("/check-room",check,async()=>{
-// let chat = await chats.find({_id:req.body.id},{userinroom:1,memberamount:1});
-// if(chat.userinroom == memberamount){
-//     res.json({"success":"false"});
-// }
-// else{
-//     await chats.updateOne({_id:req.body.id},{});
-//     res.json({"success":"true"});
-// }
-console.log(req.body.id);
+// CHECK ROOM AVAILABILITY AND JOIN
+router.post("/check-room",async(req,res)=>{
+let chat = await chats.find({_id:req.body.id},{userinroom:1,memberamount:1});
+if(chat[0].userinroom == chat[0].memberamount){
+    res.json({"success":"false"});
+}
+else{
+    await chats.updateOne({_id:req.body.id},{$inc:{userinroom:1}});
+    res.json({"success":"true"});
+}
 });
 ////////////////////////////////////////////////////////////////
 
