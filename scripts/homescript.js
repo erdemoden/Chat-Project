@@ -196,7 +196,7 @@ memberamount.onwheel = function(event){
 
 // CHAT PART -SOCKET.IO
 
-socket.on("createchat",(id)=>{
+socket.on('makechat',(id)=>{
 // if(document.getElementsByClassName("create-room1").length>0){
 //         document.querySelectorAll('.create-room1').forEach(e => e.remove());
 //     }
