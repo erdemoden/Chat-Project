@@ -14,6 +14,20 @@ let create = document.getElementsByClassName("create");
     let chattitle = document.getElementById("titlebar");
     let joinroom = document.getElementsByClassName("join");
     const socket = io();
+///////////////////////////////////////////////////////////////////////////////////
+
+// CHAT PART -SOCKET.IO
+    socket.on('makechat',(id)=>{
+        // if(document.getElementsByClassName("create-room1").length>0){
+        //         document.querySelectorAll('.create-room1').forEach(e => e.remove());
+        //     }
+        // if(document.getElementsByClassName("create-room").length>0){
+        //         document.querySelectorAll('.create-room').forEach(e => e.style.display = "none");
+        // }
+        // chatscreen.style.display = "block";
+        // chattitle.style.display = "block";
+        console.log("created");
+        });
 ///////////////////////////////////////////////////////////////
 
 // HAMBURGER MENU
@@ -94,7 +108,7 @@ for(var i = 0;i<yourrooms.length;i++){
                    });
                    let jsonres = await postdata.json();
                    if(jsonres.success == "true"){
-                       socket.emit("join",join.id);
+                       socket.emit("joinroom",join.id);
                    }
                    else{
                     swal({
@@ -192,21 +206,6 @@ memberamount.onwheel = function(event){
     event.preventDefault();
 }
 //////////////////////////////////////////////////////////////////
-
-
-// CHAT PART -SOCKET.IO
-
-socket.on('makechat',(id)=>{
-// if(document.getElementsByClassName("create-room1").length>0){
-//         document.querySelectorAll('.create-room1').forEach(e => e.remove());
-//     }
-// if(document.getElementsByClassName("create-room").length>0){
-//         document.querySelectorAll('.create-room').forEach(e => e.style.display = "none");
-// }
-// chatscreen.style.display = "block";
-// chattitle.style.display = "block";
-console.log("created");
-});
 
 
 
