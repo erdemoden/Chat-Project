@@ -25,9 +25,9 @@ app.use('/',log);
 // SOCKET-IO
 
 io.on('connection',(socket)=>{
-    socket.on('joinroom',(id)=>{
+    socket.on('joinroom',(id,roomname,username)=>{
         socket.join(id);
-        io.sockets.to(id).emit("makechat",id);
+        io.to(id).emit("makechat",id,roomname,username);
         console.log("bağlandık-socket");
     });
     socket.on("disconnect",()=>{

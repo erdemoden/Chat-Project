@@ -1,4 +1,3 @@
-
 // ALL VARIABLES
 let create = document.getElementsByClassName("create");
     let createroom = document.getElementsByClassName("create-room");
@@ -17,16 +16,24 @@ let create = document.getElementsByClassName("create");
 ///////////////////////////////////////////////////////////////////////////////////
 
 // CHAT PART -SOCKET.IO
-    socket.on('makechat',(id)=>{
-        // if(document.getElementsByClassName("create-room1").length>0){
-        //         document.querySelectorAll('.create-room1').forEach(e => e.remove());
-        //     }
-        // if(document.getElementsByClassName("create-room").length>0){
-        //         document.querySelectorAll('.create-room').forEach(e => e.style.display = "none");
-        // }
-        // chatscreen.style.display = "block";
-        // chattitle.style.display = "block";
-        console.log("created");
+    socket.on('makechat',(id,roomname,username)=>{
+        if(document.getElementsByClassName("create-room1").length>0){
+                document.querySelectorAll('.create-room1').forEach(e => e.remove());
+            }
+        if(document.getElementsByClassName("create-room").length>0){
+                document.querySelectorAll('.create-room').forEach(e => e.style.display = "none");
+        }
+        chatscreen.style.display = "flex";
+        chattitle.style.display = "flex";
+        document.getElementById("chatword").innerHTML = roomname;
+        let isimler = document.createElement("div");
+        isimler.className = "alert alert-primary users";
+        isimler.innerHTML = username;
+        document.getElementById("isimler").appendChild(isimler);
+        // div class="alert alert-primary users" role="alert">
+        //         This is a primary alert—check it out! asdasdasdasdasdsdDSADSDASDASDASDASDASDASDASDsdafsdfkalkdfjwljwljqwldqlkdasd329428304820348
+        //       </div>
+        console.log(username);
         });
 ///////////////////////////////////////////////////////////////
 
@@ -90,6 +97,7 @@ for(var i = 0;i<yourrooms.length;i++){
             join.setAttribute("style","font-weight:bolder;margin-top:85px;float:left;margin-left:30px;");
             deleteroom.setAttribute("style","font-weight:bolder;margin-top:85px;float:right;margin-right:30px;");
             chat.innerHTML = "Room Name: "+jsonobj[i].chatname;
+            let justname = jsonobj[i].chatname;
             membercount.innerHTML = "Available Space: "+jsonobj[i].memberamount;
             join.id = jsonobj[i].id;
             deleteroom.id = jsonobj[i].id;
@@ -108,7 +116,7 @@ for(var i = 0;i<yourrooms.length;i++){
                    });
                    let jsonres = await postdata.json();
                    if(jsonres.success == "true"){
-                       socket.emit("joinroom",join.id);
+                       socket.emit("joinroom",join.id,justname,jsonres.name);
                    }
                    else{
                     swal({

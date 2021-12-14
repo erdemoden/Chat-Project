@@ -197,13 +197,14 @@ else{
 
 // CHECK ROOM AVAILABILITY AND JOIN
 router.post("/check-room",async(req,res)=>{
+let ad = jwt.verify(req.cookies.jwt,process.env.secret);   
 let chat = await chats.find({_id:req.body.id},{userinroom:1,memberamount:1});
 if(chat[0].userinroom == chat[0].memberamount){
-    res.json({"success":"false"});
+    res.json({"success":"false","name":ad.name});
 }
 else{
     await chats.updateOne({_id:req.body.id},{$inc:{userinroom:1}});
-    res.json({"success":"true"});
+    res.json({"success":"true","name":ad.name});
 }
 });
 ////////////////////////////////////////////////////////////////
