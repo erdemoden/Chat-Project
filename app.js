@@ -26,11 +26,11 @@ app.use('/',log);
 
 let rooms = {}
 io.on('connection',(socket)=>{
-    socket.on('joinroom',(id,roomname,username)=>{
+    socket.on('joinroom',(id,roomname,username,chatowner)=>{
         socket.join(id);
         rooms[id] = new Array();
         rooms[id].push(username);
-        io.to(id).emit("makechat",id,roomname,username,rooms);
+        io.to(id).emit("makechat",id,roomname,username,rooms,chatowner);
         console.log("bağlandık-socket");
     });
     socket.on("disconnect",()=>{

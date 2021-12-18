@@ -16,7 +16,7 @@ let create = document.getElementsByClassName("create");
 ///////////////////////////////////////////////////////////////////////////////////
 
 // CHAT PART -SOCKET.IO
-    socket.on('makechat',(id,roomname,username,rooms)=>{
+    socket.on('makechat',(id,roomname,username,rooms,chatowner)=>{
         if(document.getElementsByClassName("create-room1").length>0){
                 document.querySelectorAll('.create-room1').forEach(e => e.remove());
             }
@@ -31,10 +31,28 @@ let create = document.getElementsByClassName("create");
         document.getElementById("chatword").innerHTML = roomname;
     }
     for(var i = 0;i<rooms[id].length;i++){
+        if(document.getElementsByClassName("users").length>0)
+        {
+            if(username==chatowner){
+                // Düzenlenmeli bu kısım
+            let isimler = document.createElement("div");
+            isimler.className = "alert alert-primary users";
+            isimler.innerHTML = rooms[id][i];
+            document.getElementById("isimler").appendChild(isimler);
+            }
+            else{
+            let isimler = document.createElement("div");
+            isimler.className = "alert alert-primary users";
+            isimler.innerHTML = rooms[id][i];
+            document.getElementById("isimler").appendChild(isimler);
+            }
+        }
+        else if(username==chatowner){
         let isimler = document.createElement("div");
         isimler.className = "alert alert-primary users";
         isimler.innerHTML = username;
         document.getElementById("isimler").appendChild(isimler);
+        }
     }
         // div class="alert alert-primary users" role="alert">
         //         This is a primary alert—check it out! asdasdasdasdasdsdDSADSDASDASDASDASDASDASDASDsdafsdfkalkdfjwljwljqwldqlkdasd329428304820348
@@ -122,7 +140,7 @@ for(var i = 0;i<yourrooms.length;i++){
                    });
                    let jsonres = await postdata.json();
                    if(jsonres.success == "true"){
-                       socket.emit("joinroom",join.id,justname,jsonres.name);
+                       socket.emit("joinroom",join.id,justname,jsonres.name,jsonres.chatowner);
                    }
                    else{
                     swal({
