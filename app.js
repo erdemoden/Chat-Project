@@ -24,10 +24,13 @@ app.use('/',log);
 
 // SOCKET-IO
 
+let rooms = {}
 io.on('connection',(socket)=>{
     socket.on('joinroom',(id,roomname,username)=>{
         socket.join(id);
-        io.to(id).emit("makechat",id,roomname,username);
+        rooms[id] = new Array();
+        rooms[id].push(username);
+        io.to(id).emit("makechat",id,roomname,username,rooms);
         console.log("bağlandık-socket");
     });
     socket.on("disconnect",()=>{

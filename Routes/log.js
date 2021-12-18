@@ -97,7 +97,7 @@ else{
 router.post("/create-room",check,async(req,res)=>{
 let ad = jwt.verify(req.cookies.jwt,process.env.secret);
 if(req.body.memberamount>=2 && req.body.chatname!=''){
-const chat = new chats(req.body);
+const chat = new chats({chatname:req.body.chatname,memberamount:req.body.memberamount,chatowner:ad.name});
 await chat.save();
 let Gonder = await bcyrpt.hash("başarılı",5);
 await users2.updateOne({name:ad.name},{$push:{chat:chat._id}});
@@ -198,13 +198,13 @@ else{
 // CHECK ROOM AVAILABILITY AND JOIN
 router.post("/check-room",async(req,res)=>{
 let ad = jwt.verify(req.cookies.jwt,process.env.secret);   
-let chat = await chats.find({_id:req.body.id},{userinroom:1,memberamount:1});
+let chat = await chats.find({_id:req.body.id},{userinroom:1,memberamount:1,chatowner:1});
 if(chat[0].userinroom == chat[0].memberamount){
     res.json({"success":"false","name":ad.name});
 }
 else{
     await chats.updateOne({_id:req.body.id},{$inc:{userinroom:1}});
-    res.json({"success":"true","name":ad.name});
+    res.json({"success":"true","name":ad.name,"chatowner":chat[0].chatowner});
 }
 });
 ////////////////////////////////////////////////////////////////

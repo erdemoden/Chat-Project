@@ -16,20 +16,26 @@ let create = document.getElementsByClassName("create");
 ///////////////////////////////////////////////////////////////////////////////////
 
 // CHAT PART -SOCKET.IO
-    socket.on('makechat',(id,roomname,username)=>{
+    socket.on('makechat',(id,roomname,username,rooms)=>{
         if(document.getElementsByClassName("create-room1").length>0){
                 document.querySelectorAll('.create-room1').forEach(e => e.remove());
             }
         if(document.getElementsByClassName("create-room").length>0){
                 document.querySelectorAll('.create-room').forEach(e => e.style.display = "none");
         }
+        if(!chatscreen && !chattitle){
         chatscreen.style.display = "flex";
         chattitle.style.display = "flex";
+    }
+    if(document.getElementById("chatword").innerHTML!=roomname){
         document.getElementById("chatword").innerHTML = roomname;
+    }
+    for(var i = 0;i<rooms[id].length;i++){
         let isimler = document.createElement("div");
         isimler.className = "alert alert-primary users";
         isimler.innerHTML = username;
         document.getElementById("isimler").appendChild(isimler);
+    }
         // div class="alert alert-primary users" role="alert">
         //         This is a primary alert—check it out! asdasdasdasdasdsdDSADSDASDASDASDASDASDASDASDsdafsdfkalkdfjwljwljqwldqlkdasd329428304820348
         //       </div>
