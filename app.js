@@ -28,8 +28,13 @@ let rooms = {}
 io.on('connection',(socket)=>{
     socket.on('joinroom',(id,roomname,username,chatowner)=>{
         socket.join(id);
+        if(id in rooms){
+            rooms[id].push(username);
+        }
+        else{
         rooms[id] = new Array();
         rooms[id].push(username);
+        }
         io.to(id).emit("makechat",id,roomname,username,rooms,chatowner);
         console.log("bağlandık-socket");
     });

@@ -23,10 +23,8 @@ let create = document.getElementsByClassName("create");
         if(document.getElementsByClassName("create-room").length>0){
                 document.querySelectorAll('.create-room').forEach(e => e.style.display = "none");
         }
-        if(!chatscreen && !chattitle){
         chatscreen.style.display = "flex";
         chattitle.style.display = "flex";
-    }
     if(document.getElementById("chatword").innerHTML!=roomname){
         document.getElementById("chatword").innerHTML = roomname;
     }
@@ -34,30 +32,42 @@ let create = document.getElementsByClassName("create");
         if(document.getElementsByClassName("users").length>0)
         {
             if(username==chatowner){
-                // Düzenlenmeli bu kısım
-            let isimler = document.createElement("div");
-            isimler.className = "alert alert-primary users";
-            isimler.innerHTML = rooms[id][i];
-            document.getElementById("isimler").appendChild(isimler);
+            for(var j =0;j<document.getElementsByClassName("users").length;j++){
+                if(document.getElementsByClassName("users")[j].innerHTML!=rooms[id][i]){
+                    let isimler = document.createElement("div");
+                    isimler.className = "alert alert-primary users";
+                    isimler.innerHTML = rooms[id][i];
+                    document.getElementById("isimler").appendChild(isimler);
+                    // DÜZENLEMELİ USER BANLAMA
+                }
+            }
             }
             else{
-            let isimler = document.createElement("div");
-            isimler.className = "alert alert-primary users";
-            isimler.innerHTML = rooms[id][i];
-            document.getElementById("isimler").appendChild(isimler);
+                for(var j =0;j<document.getElementsByClassName("users").length;j++){
+                    if(document.getElementsByClassName("users")[j].innerHTML!=rooms[id][i]){
+                        let isimler = document.createElement("div");
+                        isimler.className = "alert alert-primary users";
+                        isimler.innerHTML = rooms[id][i];
+                        document.getElementById("isimler").appendChild(isimler);
+                        // DÜZENLEMELİ USER BANLAMA
+                    }
+                }
             }
         }
         else if(username==chatowner){
         let isimler = document.createElement("div");
         isimler.className = "alert alert-primary users";
-        isimler.innerHTML = username;
+        isimler.innerHTML = rooms[id][i];
+        document.getElementById("isimler").appendChild(isimler);
+        // DÜZENLE USER BAN
+        }
+        else{
+        let isimler = document.createElement("div");
+        isimler.className = "alert alert-primary users";
+        isimler.innerHTML = rooms[id][i];
         document.getElementById("isimler").appendChild(isimler);
         }
     }
-        // div class="alert alert-primary users" role="alert">
-        //         This is a primary alert—check it out! asdasdasdasdasdsdDSADSDASDASDASDASDASDASDASDsdafsdfkalkdfjwljwljqwldqlkdasd329428304820348
-        //       </div>
-        console.log(username);
         });
 ///////////////////////////////////////////////////////////////
 
@@ -196,9 +206,34 @@ for(var i = 0;i<allrooms.length;i++){
             join.className = "btn btn-success join";
             join.setAttribute("style","font-weight: bolder; margin-top: 85px; float: left; margin-left: 30px; margin-left: 50%; transform: translate(-50%, -50%);height: 100px; width: 300px;");
             chat.innerHTML = "Room Name: "+jsonobj[i].chatname;
+            let justname = jsonobj[i].chatname;
             membercount.innerHTML = "Available Space: "+jsonobj[i].memberamount;
             join.id = jsonobj[i].id;
             join.innerHTML = "JOIN THIS ROOM!";
+            // JOIN BUTTON CLICKED
+            join.addEventListener("click",async()=>{
+                let postdata = await fetch("/check-room",{
+                    method:'POST',
+                    headers:{
+                         'Accept': 'application/json',
+                        'Content-Type':'application/json'
+                    },
+                    body:JSON.stringify({"id":join.id})
+                });
+                let jsonres = await postdata.json();
+                if(jsonres.success == "true"){
+                    socket.emit("joinroom",join.id,justname,jsonres.name,jsonres.chatowner);
+                }
+                else{
+                 swal({
+                     title: "ROOM IS NOT AVAILABLE!",
+                     text: "This Room's Capacity Is Full! ",
+                     icon: "error",
+                     button: "Close This Alert",
+                   });
+                }
+             });
+         /////////////////////////////////////////////
             all.appendChild(chat);
             all.appendChild(membercount);
             all.appendChild(join);
