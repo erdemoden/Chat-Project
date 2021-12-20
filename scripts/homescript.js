@@ -19,7 +19,7 @@ let create = document.getElementsByClassName("create");
 
 // Create chat-screen for all users
     socket.on('makechat',(id,roomname,username,rooms,chatowner)=>{
-        let check = true;
+        let users = document.getElementsByClassName("users");
         if(document.getElementsByClassName("create-room1").length>0){
                 document.querySelectorAll('.create-room1').forEach(e => e.remove());
             }
@@ -31,18 +31,15 @@ let create = document.getElementsByClassName("create");
     if(document.getElementById("chatword").innerHTML!=roomname){
         document.getElementById("chatword").innerHTML = roomname;
     }
-    for(var i = 0;i<rooms[id].length;i++){
-        if(document.getElementsByClassName("users").length>0)
+        if(users.length>0)
         {
             if(username==chatowner){
-            for(var j =0;j<document.getElementsByClassName("users").length;j++){
-                if(document.getElementsByClassName("users")[j].innerHTML!=rooms[id][i]&&j==document.getElementsByClassName("users").length-1){
+                if(users[users.length-1].innerHTML!=rooms[id][users.length]){
                     let isimler = document.createElement("div");
                     isimler.className = "alert alert-primary users";
-                    isimler.innerHTML = rooms[id][i];
+                    isimler.innerHTML = rooms[id][users.length];
                     document.getElementById("isimler").appendChild(isimler);
-                    
-                    if(room[id][i]!=chatowner){
+                    if(room[id][users.length]!=chatowner){
                     let ban = document.createElement("button");
                     ban.className = "btn btn-danger";
                     ban.id = "deleteuser"
@@ -50,33 +47,20 @@ let create = document.getElementsByClassName("create");
                     document.getElementById("isimler").appendChild(ban);
                     }
                 }
-            }
+            
             }
             else{
-                for(var j =0;j<document.getElementsByClassName("users").length;j++){
-                    if(document.getElementsByClassName("users")[j].innerHTML!=rooms[id][i]&& j==document.getElementsByClassName("users").length-1){
+                   if(users[users.length-1].innerHTML!=rooms[id][users.length]){
                         let isimler = document.createElement("div");
                         isimler.className = "alert alert-primary users";
-                        isimler.innerHTML = rooms[id][i];
+                        isimler.innerHTML = rooms[id][users.length];
                         document.getElementById("isimler").appendChild(isimler);
                     }
-                }
+                
             }
         }
-        else if(username==chatowner){
-            let isimler = document.createElement("div");
-            isimler.className = "alert alert-primary users";
-            isimler.innerHTML = rooms[id][i];
-            document.getElementById("isimler").appendChild(isimler);
-        if(room[id][i]!=chatowner){
-                let ban = document.createElement("button");
-                ban.className = "btn btn-danger";
-                ban.id = "deleteuser";
-                ban.innerHTML = "BAN THIS USER!";
-                document.getElementById("isimler").appendChild(ban);
-                } 
-        }
         else{
+        for(var i=0;i<rooms[id].length;i++){
         let isimler = document.createElement("div");
         isimler.className = "alert alert-primary users";
         isimler.innerHTML = rooms[id][i];
