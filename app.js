@@ -28,7 +28,7 @@ let rooms = {}
 io.on('connection',(socket)=>{
     socket.on('joinroom',(id,roomname,username,chatowner)=>{
         socket.join(id);
-        if(id in rooms){
+        if(id in rooms&&rooms[id].includes(username)!=true){
             rooms[id].push(username);
         }
         else{

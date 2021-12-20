@@ -16,7 +16,10 @@ let create = document.getElementsByClassName("create");
 ///////////////////////////////////////////////////////////////////////////////////
 
 // CHAT PART -SOCKET.IO
+
+// Create chat-screen for all users
     socket.on('makechat',(id,roomname,username,rooms,chatowner)=>{
+        let check = true;
         if(document.getElementsByClassName("create-room1").length>0){
                 document.querySelectorAll('.create-room1').forEach(e => e.remove());
             }
@@ -33,33 +36,45 @@ let create = document.getElementsByClassName("create");
         {
             if(username==chatowner){
             for(var j =0;j<document.getElementsByClassName("users").length;j++){
-                if(document.getElementsByClassName("users")[j].innerHTML!=rooms[id][i]){
+                if(document.getElementsByClassName("users")[j].innerHTML!=rooms[id][i]&&j==document.getElementsByClassName("users").length-1){
                     let isimler = document.createElement("div");
                     isimler.className = "alert alert-primary users";
                     isimler.innerHTML = rooms[id][i];
                     document.getElementById("isimler").appendChild(isimler);
-                    // DÜZENLEMELİ USER BANLAMA
+                    
+                    if(room[id][i]!=chatowner){
+                    let ban = document.createElement("button");
+                    ban.className = "btn btn-danger";
+                    ban.id = "deleteuser"
+                    ban.innerHTML = "BAN THIS USER!";
+                    document.getElementById("isimler").appendChild(ban);
+                    }
                 }
             }
             }
             else{
                 for(var j =0;j<document.getElementsByClassName("users").length;j++){
-                    if(document.getElementsByClassName("users")[j].innerHTML!=rooms[id][i]){
+                    if(document.getElementsByClassName("users")[j].innerHTML!=rooms[id][i]&& j==document.getElementsByClassName("users").length-1){
                         let isimler = document.createElement("div");
                         isimler.className = "alert alert-primary users";
                         isimler.innerHTML = rooms[id][i];
                         document.getElementById("isimler").appendChild(isimler);
-                        // DÜZENLEMELİ USER BANLAMA
                     }
                 }
             }
         }
         else if(username==chatowner){
-        let isimler = document.createElement("div");
-        isimler.className = "alert alert-primary users";
-        isimler.innerHTML = rooms[id][i];
-        document.getElementById("isimler").appendChild(isimler);
-        // DÜZENLE USER BAN
+            let isimler = document.createElement("div");
+            isimler.className = "alert alert-primary users";
+            isimler.innerHTML = rooms[id][i];
+            document.getElementById("isimler").appendChild(isimler);
+        if(room[id][i]!=chatowner){
+                let ban = document.createElement("button");
+                ban.className = "btn btn-danger";
+                ban.id = "deleteuser";
+                ban.innerHTML = "BAN THIS USER!";
+                document.getElementById("isimler").appendChild(ban);
+                } 
         }
         else{
         let isimler = document.createElement("div");
@@ -70,7 +85,7 @@ let create = document.getElementsByClassName("create");
     }
         });
 ///////////////////////////////////////////////////////////////
-
+//////////////////////////////////////////////////////////////
 // HAMBURGER MENU
     $(".hamburger").click(function(){
         $(".hbuttons").stop().slideToggle();
