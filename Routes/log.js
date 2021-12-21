@@ -208,7 +208,12 @@ else{
 }
 });
 ////////////////////////////////////////////////////////////////
-
+//GET NAME
+router.get("/getname",(req,res)=>{
+    let ad = jwt.verify(req.cookies.jwt,process.env.secret);   
+    res.json({"name":ad.name});
+});
+/////////////////////////////////////////
 //sil 
 router.get("/delete",async(req,res)=>{
     try{
@@ -221,6 +226,8 @@ router.get("/delete",async(req,res)=>{
         console.log("error");
     }
 });
+
+
 
 
 

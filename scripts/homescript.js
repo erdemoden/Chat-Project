@@ -18,7 +18,9 @@ let create = document.getElementsByClassName("create");
 // CHAT PART -SOCKET.IO
 
 // Create chat-screen for all users
-    socket.on('makechat',(id,roomname,username,rooms,chatowner)=>{
+    socket.on('makechat',async(id,roomname,username,rooms,chatowner)=>{
+        let getname = await fetch("/getname");
+        let username1 = await getname.json(); 
         let users = document.getElementsByClassName("users");
         if(document.getElementsByClassName("create-room1").length>0){
                 document.querySelectorAll('.create-room1').forEach(e => e.remove());
@@ -33,13 +35,14 @@ let create = document.getElementsByClassName("create");
     }
         if(users.length>0)
         {
-            if(username==chatowner){
-                if(users[users.length-1].innerHTML!=rooms[id][users.length]){
+            console.log(username1 + " "+chatowner+" "+ rooms[id][rooms[id].length-1]);
+            if(username1.name==chatowner){
+                if(users[users.length-1].innerHTML!=rooms[id][rooms[id].length-1]){
                     let isimler = document.createElement("div");
                     isimler.className = "alert alert-primary users";
-                    isimler.innerHTML = rooms[id][users.length];
+                    isimler.innerHTML = rooms[id][rooms[id].length-1];
                     document.getElementById("isimler").appendChild(isimler);
-                    if(room[id][users.length]!=chatowner){
+                    if(rooms[id][rooms[id].length-1]!=chatowner){
                     let ban = document.createElement("button");
                     ban.className = "btn btn-danger";
                     ban.id = "deleteuser"
@@ -47,13 +50,13 @@ let create = document.getElementsByClassName("create");
                     document.getElementById("isimler").appendChild(ban);
                     }
                 }
-            
+                console.log(chatowner+" "+rooms[id][rooms[id].length-1]);
             }
             else{
-                   if(users[users.length-1].innerHTML!=rooms[id][users.length]){
+                   if(users[users.length-1].innerHTML!=rooms[id][rooms[id].length-1]){
                         let isimler = document.createElement("div");
                         isimler.className = "alert alert-primary users";
-                        isimler.innerHTML = rooms[id][users.length];
+                        isimler.innerHTML = rooms[id][rooms[id].length-1];
                         document.getElementById("isimler").appendChild(isimler);
                     }
                 
@@ -65,10 +68,20 @@ let create = document.getElementsByClassName("create");
         isimler.className = "alert alert-primary users";
         isimler.innerHTML = rooms[id][i];
         document.getElementById("isimler").appendChild(isimler);
+        if(username1.name==chatowner){
+        if(rooms[id][i]!=chatowner){
+            let ban = document.createElement("button");
+            ban.className = "btn btn-danger";
+            ban.id = "deleteuser"
+            ban.innerHTML = "BAN THIS USER!";
+            document.getElementById("isimler").appendChild(ban);
+            }
+        }
         }
     }
         });
 ///////////////////////////////////////////////////////////////
+
 //////////////////////////////////////////////////////////////
 // HAMBURGER MENU
     $(".hamburger").click(function(){
@@ -116,6 +129,15 @@ for(var i = 0;i<yourrooms.length;i++){
             const response = await fetch("/your-rooms");
             const jsonobj = await response.json();
             console.log(jsonobj.length);
+            if(jsonobj.length<=0){
+                swal({
+                    title: "YOU DON'T HAVE ANY ROOM",
+                    text: "You Can Create A Room",
+                    icon: "error",
+                    button: "Close This Alert",
+                  });
+            }
+        else{
             for(var i = 0;i<jsonobj.length;i++){
             let all = document.createElement('nav');
             let chat = document.createElement('p');
@@ -176,6 +198,7 @@ for(var i = 0;i<yourrooms.length;i++){
             }
             document.getElementsByClassName("create-room1")[i].style.display = "block";
             }
+        }
         })
         
 }
@@ -193,7 +216,15 @@ for(var i = 0;i<allrooms.length;i++){
             }
             const response = await fetch("/all-rooms");
             const jsonobj = await response.json();
-            console.log(jsonobj.length);
+            if(jsonobj.length<=0){
+                swal({
+                    title: "SERVER DON'T HAVE ANY ROOM",
+                    text: "You Can Create A Room",
+                    icon: "error",
+                    button: "Close This Alert",
+                  });
+            }
+            else{
             for(var i = 0;i<jsonobj.length;i++){
             let all = document.createElement('nav');
             let chat = document.createElement('p');
@@ -247,6 +278,7 @@ for(var i = 0;i<allrooms.length;i++){
             }
             document.getElementsByClassName("create-room1")[i].style.display = "block";
             }
+        }
         });
     }
 }
