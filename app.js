@@ -38,6 +38,9 @@ io.on('connection',(socket)=>{
         io.to(id).emit("makechat",id,roomname,username,rooms,chatowner);
         console.log("bağlandık-socket");
     });
+    socket.on("sendmessage",(message)=>{
+        io.to(id).emit("gotmessage",message);
+    });
     socket.on("disconnect",()=>{
         console.log("bağlantı gitti");
     });

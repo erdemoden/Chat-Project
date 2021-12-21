@@ -12,12 +12,14 @@ let create = document.getElementsByClassName("create");
     let chatscreen = document.getElementById("chat");
     let chattitle = document.getElementById("titlebar");
     let joinroom = document.getElementsByClassName("join");
+    let senbutton = document.getElementById("lisend");
+    let writingarea = document.getElementById("limessage");
     const socket = io();
 ///////////////////////////////////////////////////////////////////////////////////
 
 // CHAT PART -SOCKET.IO
 
-// Create chat-screen for all users
+// CREATE CHAT SCREEN FOR ALL USERS
     socket.on('makechat',async(id,roomname,username,rooms,chatowner)=>{
         let getname = await fetch("/getname");
         let username1 = await getname.json(); 
@@ -82,7 +84,14 @@ let create = document.getElementsByClassName("create");
         });
 ///////////////////////////////////////////////////////////////
 
+// SEND MESSAGE FOR ALL USERS
+socket.on("gotmessage",(message)=>{
+
+});
+
+
 //////////////////////////////////////////////////////////////
+
 // HAMBURGER MENU
     $(".hamburger").click(function(){
         $(".hbuttons").stop().slideToggle();
@@ -282,6 +291,15 @@ for(var i = 0;i<allrooms.length;i++){
         });
     }
 }
+/////////////////////////////////////////////////////////////
+
+// CHAT SEND BUTTON
+senbutton.addEventListener("click",()=>{
+if(writingarea.value != ""){
+    socket.emit("sendmessage",writingarea.value);
+}
+});
+
 /////////////////////////////////////////////////////////////
 
 // ON WHELL FUNCTIONS
