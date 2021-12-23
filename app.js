@@ -25,9 +25,11 @@ app.use('/',log);
 // SOCKET-IO
 
 let rooms = {}
+let roomid = "";
 io.on('connection',(socket)=>{
     socket.on('joinroom',(id,roomname,username,chatowner)=>{
         socket.join(id);
+        roomid = id;
         if(id in rooms&&rooms[id].includes(username)!=true){
             rooms[id].push(username);
         }
@@ -38,8 +40,8 @@ io.on('connection',(socket)=>{
         io.to(id).emit("makechat",id,roomname,username,rooms,chatowner);
         console.log("bağlandık-socket");
     });
-    socket.on("sendmessage",(message)=>{
-        io.to(id).emit("gotmessage",message);
+    socket.on("sendmessage",(message,sendername)=>{
+        io.to(roomid).emit("gotmessage",message,sendername);
     });
     socket.on("disconnect",()=>{
         console.log("bağlantı gitti");

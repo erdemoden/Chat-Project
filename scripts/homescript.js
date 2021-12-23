@@ -12,8 +12,8 @@ let create = document.getElementsByClassName("create");
     let chatscreen = document.getElementById("chat");
     let chattitle = document.getElementById("titlebar");
     let joinroom = document.getElementsByClassName("join");
-    let senbutton = document.getElementById("lisend");
-    let writingarea = document.getElementById("limessage");
+    let senbutton = document.getElementById("lisendbut");
+    let writingarea = document.getElementById("limessagearea");
     const socket = io();
 ///////////////////////////////////////////////////////////////////////////////////
 
@@ -85,8 +85,26 @@ let create = document.getElementsByClassName("create");
 ///////////////////////////////////////////////////////////////
 
 // SEND MESSAGE FOR ALL USERS
-socket.on("gotmessage",(message)=>{
-
+socket.on("gotmessage",async(message,sendername)=>{
+    let getname = await fetch("getname");
+    let userpresent = await getname.json();
+    let chatscene = document.getElementById("chatitself");
+    let chatmessage = document.createElement("div");
+    let username = document.createElement("p");
+    let messageitself = document.createElement("p");
+    if(userpresent.name == sendername){
+        chatmessage.className = "alert alert-success right-tail";
+    }else{
+        chatmessage.className = "alert alert-primary left-tail";
+    }
+    chatmessage.setAttribute("style","width:50%; height:auto; margin:0 auto; margin-top:20px;");
+    username.setAttribute("style","width: inherit; white-space: pre-wrap; word-wrap: break-word; margin-left: 0px; border:1px solid;");
+    messageitself.setAttribute("style","width: inherit; white-space: pre-wrap; word-wrap: break-word; margin-left: 0px;");
+    username.innerHTML = "Name: "+sendername;
+    messageitself.innerHTML = "Message: "+message;
+    chatmessage.appendChild(username);
+    chatmessage.appendChild(messageitself);
+    chatscene.appendChild(chatmessage);
 });
 
 
@@ -294,9 +312,11 @@ for(var i = 0;i<allrooms.length;i++){
 /////////////////////////////////////////////////////////////
 
 // CHAT SEND BUTTON
-senbutton.addEventListener("click",()=>{
-if(writingarea.value != ""){
-    socket.emit("sendmessage",writingarea.value);
+senbutton.addEventListener("click",async()=>{
+if(writingarea.value!= ""){
+    let getname = await fetch("getname");
+    let sendername = await getname.json();
+    socket.emit("sendmessage",writingarea.value,sendername.name);
 }
 });
 

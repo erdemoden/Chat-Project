@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HomePage</title>
+    <link rel="stylesheet" href="speech-bubble.css"/>
     <link rel="preconnect" href="https://fonts.googleapis.com"> 
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
 <link href="https://fonts.googleapis.com/css2?family=Monoton&display=swap" rel="stylesheet">
@@ -21,6 +22,30 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <style>
+    .right-tail:after {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 50%;
+        right: -15px;
+        width: 0px;
+        height: 0px;
+        border-top: 8px solid transparent;
+        border-bottom: 8px solid transparent;
+        border-left: 15px solid #d4edda;
+}
+.left-tail:after {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: -15px;
+        width: 0px;
+        height: 0px;
+        border-top: 8px solid transparent;
+        border-bottom: 8px solid transparent;
+        border-right: 15px solid #cce5ff
+}
 .none{
     display: none;
 }
@@ -581,7 +606,7 @@
       
 <!-- CHAT SCREEN-->
     <div id="titlebar">
-        <p id = "chatword" class="username">CHATjjkasdjkabsdLKJDSJHAJSHDKAJSHDAKJSHDKAJHSDJKAHSDJKAHSDJKAHSDJAHDKAHSDJKHASJDHASJKDHAKJSHDAKJSHDAKJSHDKAJHSDKAJHSDKAJHSDKJASHDKJAHSDKAJSHDAKJSHDKAJHSDKJAH</p>
+        <p id = "chatword" class="username">CHAT</p>
         <button type="button" class="btn btn-success leave" style="margin-left: auto; margin-right: 5px;">Leave Chat Room</button>
     </div>
     <div id="chat">
@@ -592,12 +617,12 @@
               <button type="button" class="btn btn-danger" id="deleteuser">Delete User</button> -->
         </div>
         <div id="chatscreen">
-        <div id="chatitself" style="width: 100%; height: 90%;">
-            <div class="alert alert-success"style = "width:100%; height:auto;"><p style="width: inherit; white-space: pre-wrap; word-wrap: break-word;">sdasdasdsdasdasdasdasdasdasdasdasdasdasdasdasdasdeweadad21231231231edsadasdasdasdadsadsasdasdadasdasdasdadsasdasdasdasdasd</p></div>
+        <div id="chatitself" style="width: 100%; height: 90%; overflow-x: auto;">
+            <!-- <div class="alert alert-success left-tail"style = "width:50%; height:auto; margin:0 auto; margin-top:20px;"> <p style="width: inherit; white-space: pre-wrap; word-wrap: break-word; margin-left: 0px; border: 1px solid;">Name:Erdem</p><p style="width: inherit; white-space: pre-wrap; word-wrap: break-word; margin-left: 0px;">Message: chat</p></div> --->
         </div>
         <ul style="padding-left: 0px;">
-            <li id="limessage"><textarea name="chatmessage" cols="10" rows="10" style="resize: none; width: 100%; height: 55px; margin-top: 0px; border: solid 5px; border-top: 2px solid black;border-left: 2px solid black; border-right: 2px solid black;"></textarea></li>
-            <li id="lisend"><button class="btn btn-success" style="height: 55px; width: 100%; border: solid 5px black; border-left: 2px solid black; border-top: 2px solid black;">Send</button></li>
+            <li id="limessage"><textarea name="chatmessage" cols="10" rows="10" style="resize: none; width: 100%; height: 55px; margin-top: 0px; border: solid 5px; border-top: 2px solid black;border-left: 2px solid black; border-right: 2px solid black;" id="limessagearea"></textarea></li>
+            <li id="lisend"><button class="btn btn-success" style="height: 55px; width: 100%; border: solid 5px black; border-left: 2px solid black; border-top: 2px solid black;"id = "lisendbut">Send</button></li>
         </ul>
         </div>
     </div>
