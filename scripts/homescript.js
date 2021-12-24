@@ -322,6 +322,18 @@ if(writingarea.value!= ""){
 
 /////////////////////////////////////////////////////////////
 
+// LEAVE CHAT BUTTON
+
+document.getElementsByClassName("leave")[0].addEventListener("click",()=>{
+let getname = await fetch("getname");
+let leavername = await getname.json();
+socket.emit("leavechat",leavername);
+});
+
+
+
+
+/////////////////////////////////////////////////////////////
 // ON WHELL FUNCTIONS
 chatword.onwheel = function(event){
     this.scrollLeft -= (event.deltaY);

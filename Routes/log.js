@@ -10,6 +10,7 @@ const chats = require("../chats");
 //const { json } = require("body-parser");
 const req = require("express/lib/request");
 const res = require("express/lib/response");
+const { request } = require("http");
 let username; 
 require("dotenv").config();
 
@@ -27,6 +28,7 @@ else{
 // Sign-Out Clear jwt
 router.get("/sign-out",(req,res)=>{
 res.clearCookie('jwt');
+res.clearCookie('reload');
 res.send("session ended");
 });
 
@@ -40,9 +42,14 @@ else{
 }
 });
 router.get('/homepage',check,(req,res)=>{
+    if(!req.cookies.reload){
     let ad = jwt.verify(req.cookies.jwt,process.env.secret); 
     username = ad;
     res.render('homepage.ejs',{data:{ad:ad.name,error:false}});
+    }
+    else{
+        res.status(204).send();
+    }
 });
 
 // LOGIN
@@ -102,6 +109,7 @@ await chat.save();
 let Gonder = await bcyrpt.hash("başarılı",5);
 await users2.updateOne({name:ad.name},{$push:{chat:chat._id}});
 res.cookie('success',Gonder);
+res.clearCookie("reload");
 res.redirect("/create-room-s");
 }
 else{
@@ -128,6 +136,8 @@ for( var i = 0;i<array.length;i++){
         "memberamount":send[i].memberamount
     }
 }
+let Gonder = await bcyrpt.hash("noreload",5);
+res.cookie('reload',Gonder);
 res.json(chatarray);
 }
 catch{
@@ -151,6 +161,8 @@ router.get("/all-rooms",check,async(req,res)=>{
             "memberamount":send[i].memberamount
         }
     }
+    let Gonder = await bcyrpt.hash("noreload",5);
+    res.cookie('reload',Gonder);
     res.json(chatarray);
     }
     catch{
