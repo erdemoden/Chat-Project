@@ -109,6 +109,14 @@ socket.on("gotmessage",async(message,sendername)=>{
 
 
 //////////////////////////////////////////////////////////////
+// GET BACK CHAT WHEN RELOAD THE PAGE
+
+socket.on("nodisconnect",async()=>{
+    let getname = await fetch("/getname");
+    let username = await getname.json();
+socket.emit("joinagain",username.name);
+});
+//////////////////////////////////////////////////////////////
 
 // HAMBURGER MENU
     $(".hamburger").click(function(){
@@ -314,7 +322,7 @@ for(var i = 0;i<allrooms.length;i++){
 // CHAT SEND BUTTON
 senbutton.addEventListener("click",async()=>{
 if(writingarea.value!= ""){
-    let getname = await fetch("getname");
+    let getname = await fetch("/getname");
     let sendername = await getname.json();
     socket.emit("sendmessage",writingarea.value,sendername.name);
 }
@@ -324,8 +332,8 @@ if(writingarea.value!= ""){
 
 // LEAVE CHAT BUTTON
 
-document.getElementsByClassName("leave")[0].addEventListener("click",()=>{
-let getname = await fetch("getname");
+document.getElementsByClassName("leave")[0].addEventListener("click",async()=>{
+let getname = await fetch("/getname");
 let leavername = await getname.json();
 socket.emit("leavechat",leavername);
 });
@@ -354,6 +362,3 @@ memberamount.onwheel = function(event){
     event.preventDefault();
 }
 //////////////////////////////////////////////////////////////////
-
-
-

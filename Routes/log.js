@@ -216,6 +216,8 @@ if(chat[0].userinroom == chat[0].memberamount){
 }
 else{
     await chats.updateOne({_id:req.body.id},{$inc:{userinroom:1}});
+    let Gonder = await bcyrpt.hash("noreloadchat",5);
+    res.cookie('reload2',Gonder);
     res.json({"success":"true","name":ad.name,"chatowner":chat[0].chatowner});
 }
 });
