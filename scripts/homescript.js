@@ -46,8 +46,8 @@ let create = document.getElementsByClassName("create");
                     document.getElementById("isimler").appendChild(isimler);
                     if(rooms[id][rooms[id].length-1]!=chatowner){
                     let ban = document.createElement("button");
-                    ban.className = "btn btn-danger";
-                    ban.id = "deleteuser"
+                    ban.className = "btn btn-danger bans";
+                    ban.id = rooms[id][rooms[id].length-1];
                     ban.innerHTML = "BAN THIS USER!";
                     document.getElementById("isimler").appendChild(ban);
                     }
@@ -73,8 +73,8 @@ let create = document.getElementsByClassName("create");
         if(username1.name==chatowner){
         if(rooms[id][i]!=chatowner){
             let ban = document.createElement("button");
-            ban.className = "btn btn-danger";
-            ban.id = "deleteuser"
+            ban.className = "btn btn-danger bans";
+            ban.id = rooms[id][i];
             ban.innerHTML = "BAN THIS USER!";
             document.getElementById("isimler").appendChild(ban);
             }
@@ -106,18 +106,32 @@ socket.on("gotmessage",async(message,sendername)=>{
     chatmessage.appendChild(messageitself);
     chatscene.appendChild(chatmessage);
 });
-
-
 //////////////////////////////////////////////////////////////
-// GET BACK CHAT WHEN RELOAD THE PAGE
-
-socket.on("nodisconnect",async()=>{
-    let getname = await fetch("/getname");
-    let username = await getname.json();
-socket.emit("joinagain",username.name);
+// USER LEAVE
+// socket.on("deleteuser",async()=>{
+//     let getname = await fetch("/getname");
+//     let username = await getname.json();
+//     socket.emit("leave",username.name);
+// });
+// //////////////////////////////////////////////////////////////
+socket.on("eraseuser",(name)=>{
+    let users = document.getElementsByClassName("users");
+    let bans = document.getElementsByClassName("bans");
+    for(var i = 0;i<users.length;i++){
+        if(users[i].innerHTML == name){
+            users[i].remove();
+        }
+    }
+    if(bans.length>0){
+        for(var i = 0;i<bans.length;i++){
+            if(bans[i].id == name){
+                bans[i].remove();
+            }
+        }
+    }
+    
 });
 //////////////////////////////////////////////////////////////
-
 // HAMBURGER MENU
     $(".hamburger").click(function(){
         $(".hbuttons").stop().slideToggle();
@@ -333,9 +347,7 @@ if(writingarea.value!= ""){
 // LEAVE CHAT BUTTON
 
 document.getElementsByClassName("leave")[0].addEventListener("click",async()=>{
-let getname = await fetch("/getname");
-let leavername = await getname.json();
-socket.emit("leavechat",leavername);
+socket.emit("leavechat");
 });
 
 

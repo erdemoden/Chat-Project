@@ -35,6 +35,8 @@ let roomid = "";
 io.on('connection',(socket)=>{
     socket.on('joinroom',(id,roomname,username,chatowner)=>{
         socket.join(id);
+        socket.ids = id;
+        socket.names = username;
         roomid = id;
         if(id in rooms&&rooms[id].includes(username)!=true){
             rooms[id].push(username);
@@ -50,18 +52,17 @@ io.on('connection',(socket)=>{
         let id = getKeyByValue(rooms,sendername);
         io.to(id).emit("gotmessage",message,sendername);
     });
-    socket.on("joinagain",(name)=>{
-       let id = getKeyByValue(rooms,name);
-        socket.join(id);
-        console.log(name+" "+id);
+    socket.on("leavechat",()=>{
+        socket.disconnect();
     });
-    socket.on("disconnect",async()=>{
-        if(signedCookie("reload2")){
-            socket.connect();
-        //socket.emit('nodisconnect');
-        }
-        else{
-            console.log("çalış");
-        }
+    socket.on("leave",(username)=>{
+        let id = getKeyByValue(rooms,username);
+        let index = rooms[id].indexOf(username);
+        rooms[id].splice(index,1);
+        socket.broadcast.to(id).emit("eraseusername",username);
+        socket.disconnect();
     });
+        socket.on("disconnect",()=>{
+            socket.broadcast.to(socket.ids).emit("eraseuser",socket.names);
+        });
 })
