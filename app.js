@@ -35,7 +35,7 @@ let roomid = "";
 io.on('connection',(socket)=>{
     socket.on('joinroom',(id,roomname,username,chatowner)=>{
         socket.join(id);
-        socket.ids = id;
+        socket.chatid = id;
         socket.names = username;
         roomid = id;
         if(id in rooms&&rooms[id].includes(username)!=true){
@@ -49,20 +49,19 @@ io.on('connection',(socket)=>{
         console.log("bağlandık-socket");
     });
     socket.on("sendmessage",(message,sendername)=>{
-        let id = getKeyByValue(rooms,sendername);
-        io.to(id).emit("gotmessage",message,sendername);
+        io.to(socket.chatid).emit("gotmessage",message,sendername);
     });
     socket.on("leavechat",()=>{
         socket.disconnect();
     });
-    socket.on("leave",(username)=>{
-        let id = getKeyByValue(rooms,username);
-        let index = rooms[id].indexOf(username);
-        rooms[id].splice(index,1);
-        socket.broadcast.to(id).emit("eraseusername",username);
-        socket.disconnect();
-    });
+    // socket.on("leave",(username)=>{
+    //     //let id = getKeyByValue(rooms,username);
+    //     let index = rooms[socket.chatid].indexOf(username);
+    //     rooms[socket.chatid].splice(index,1);
+    //     //socket.broadcast.to(socket.chatid).emit("eraseusername",username);
+    //     socket.disconnect();
+    // });
         socket.on("disconnect",()=>{
-            socket.broadcast.to(socket.ids).emit("eraseuser",socket.names);
+            socket.broadcast.to(socket.chatid).emit("eraseuser",socket.names,socket.chatid);
         });
 })

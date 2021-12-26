@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
-
+const req = require("express/lib/request");
+const res = require("express/lib/response");
 const check = function(req,res,next){
 let token = req.cookies.jwt;
 if(token){

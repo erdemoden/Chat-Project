@@ -149,10 +149,13 @@ catch{
 
 // ALL ROOMS
 router.get("/all-rooms",check,async(req,res)=>{
+    let array = [];
     let chatarray = [];
     try{
     let mychats = await User.find({},{chat:1,_id:0});
-    let array = mychats[0].chat;
+    for(var i = 0;i<mychats.length;i++){
+        array.push.apply(array,mychats[i].chat);
+    }
     let send = await chats.find({_id:{$in:array}},{_id:1,chatname:1,memberamount:1});
     for( var i = 0;i<array.length;i++){
         chatarray[i] = {
@@ -208,7 +211,7 @@ else{
 ////////////////////////////////////////////////////////////
 
 // CHECK ROOM AVAILABILITY AND JOIN
-router.post("/check-room",async(req,res)=>{
+router.post("/check-room",check,async(req,res)=>{
 let ad = jwt.verify(req.cookies.jwt,process.env.secret);   
 let chat = await chats.find({_id:req.body.id},{userinroom:1,memberamount:1,chatowner:1});
 if(chat[0].userinroom == chat[0].memberamount){
@@ -227,6 +230,11 @@ router.get("/getname",(req,res)=>{
     res.json({"name":ad.name});
 });
 /////////////////////////////////////////
+// DECREASE ROOM AVAILABILITY
+router.post("/decreaseroom",check,async(req,res)=>{
+    await chats.updateOne({_id:req.body.id},{$inc:{userinroom:-1}});
+});
+////////////////////////////////////////
 //sil 
 router.get("/delete",async(req,res)=>{
     try{
