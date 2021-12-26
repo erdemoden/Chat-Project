@@ -114,7 +114,7 @@ socket.on("gotmessage",async(message,sendername)=>{
 //     socket.emit("leave",username.name);
 // });
 // //////////////////////////////////////////////////////////////
-socket.on("eraseuser",async(name,chatid)=>{
+socket.on("eraseuser",async(name,chatid,deletecount)=>{
     let users = document.getElementsByClassName("users");
     let bans = document.getElementsByClassName("bans");
     for(var i = 0;i<users.length;i++){
@@ -129,6 +129,7 @@ socket.on("eraseuser",async(name,chatid)=>{
             }
         }
     }
+    if(deletecount == 1){
     let postdata = await fetch("/decreaseroom",{
         method:'POST',
         headers:{
@@ -137,7 +138,9 @@ socket.on("eraseuser",async(name,chatid)=>{
         },
         body:JSON.stringify({"id":chatid})
     });
+}
 });
+
 //////////////////////////////////////////////////////////////
 // HAMBURGER MENU
     $(".hamburger").click(function(){
@@ -354,7 +357,6 @@ if(writingarea.value!= ""){
 // LEAVE CHAT BUTTON
 
 document.getElementsByClassName("leave")[0].addEventListener("click",async()=>{
-await chats.updateOne({_id:req.body.id},{$inc:{userinroom:1}});
 socket.emit("leavechat");
 location.reload();
 });

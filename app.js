@@ -37,6 +37,8 @@ io.on('connection',(socket)=>{
         socket.join(id);
         socket.chatid = id;
         socket.names = username;
+        socket.deletecount = 0;
+        socket.connected = true;
         roomid = id;
         if(id in rooms&&rooms[id].includes(username)!=true){
             rooms[id].push(username);
@@ -62,6 +64,10 @@ io.on('connection',(socket)=>{
     //     socket.disconnect();
     // });
         socket.on("disconnect",()=>{
-            socket.broadcast.to(socket.chatid).emit("eraseuser",socket.names,socket.chatid);
+            if(socket.connected == true){
+            let index = rooms[socket.chatid].indexOf(socket.names);
+            rooms[socket.chatid].splice(index,1);
+        }
+            socket.broadcast.to(socket.chatid).emit("eraseuser",socket.names,socket.chatid,socket.deletecount+1);
         });
 })
