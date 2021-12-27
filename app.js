@@ -1,3 +1,4 @@
+const superagent = require('superagent');
 const express = require('express');
 const app = express();
 const cookieparser = require('cookie-parser');
@@ -63,11 +64,36 @@ io.on('connection',(socket)=>{
     //     //socket.broadcast.to(socket.chatid).emit("eraseusername",username);
     //     socket.disconnect();
     // });
-        socket.on("disconnect",()=>{
+        socket.on("disconnect",async()=>{
             if(socket.connected == true){
             let index = rooms[socket.chatid].indexOf(socket.names);
             rooms[socket.chatid].splice(index,1);
         }
-            socket.broadcast.to(socket.chatid).emit("eraseuser",socket.names,socket.chatid,socket.deletecount+1);
+        if(socket.chatid!=undefined&&rooms[socket.chatid].length==1){
+            superagent
+            .post('http://localhost:1998/decreaseroom')
+            .send({ "id":socket.chatid}) 
+            .set('X-API-Key', 'foobar')
+            .set('accept', 'json')
+            .end((err, res) => {
+                console.log(res);
+});
+            console.log("bir kişilik olan çalıştı");
+        }
+        else if (socket.chatid!=undefined&&rooms[socket.chatid].length>1){
+            let checkname = rooms[socket.chatid][rooms[socket.chatid].length-1];
+            superagent
+            .post('http://localhost:1998/decreaseroom')
+            .send({ "id":socket.chatid}) 
+            .set('X-API-Key', 'foobar')
+            .set('accept', 'json')
+            .end((err, res) => {
+                console.log(res);
+});
+            socket.broadcast.to(socket.chatid).emit("eraseuser",socket.names,socket.chatid,checkname);
+        }
+        else{
+            console.log("bağlantı-gitti",socket.rooms);
+        }
         });
 })

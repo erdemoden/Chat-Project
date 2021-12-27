@@ -114,7 +114,9 @@ socket.on("gotmessage",async(message,sendername)=>{
 //     socket.emit("leave",username.name);
 // });
 // //////////////////////////////////////////////////////////////
-socket.on("eraseuser",async(name,chatid,deletecount)=>{
+socket.on("eraseuser",async(name,chatid,checkname)=>{
+    let getname = await fetch("/getname");
+    let userpresent = await getname.json();
     let users = document.getElementsByClassName("users");
     let bans = document.getElementsByClassName("bans");
     for(var i = 0;i<users.length;i++){
@@ -129,17 +131,35 @@ socket.on("eraseuser",async(name,chatid,deletecount)=>{
             }
         }
     }
-    if(deletecount == 1){
-    let postdata = await fetch("/decreaseroom",{
-        method:'POST',
-        headers:{
-             'Accept': 'application/json',
-            'Content-Type':'application/json'
-        },
-        body:JSON.stringify({"id":chatid})
-    });
-}
+//     if(checkname == userpresent.name){
+//     let postdata = await fetch("/decreaseroom",{
+//         method:'POST',
+//         headers:{
+//              'Accept': 'application/json',
+//             'Content-Type':'application/json'
+//         },
+//         body:JSON.stringify({"id":chatid})
+//     });
+//     console.log(await postdata.json().oldu);
+// }
 });
+//////////////////////////////////////////////////////////////
+// // DECREASE ROOM TO 0
+// socket.on("formatroom",async(name)=>{
+//     let getname = await fetch("/getname");
+//     let userpresent = await getname.json();
+// if(name == userpresent.name){
+//     let postdata = await fetch("/decreaseroom",{
+//         method:'POST',
+//         headers:{
+//              'Accept': 'application/json',
+//             'Content-Type':'application/json'
+//         },
+//         body:JSON.stringify({"id":chatid})
+//     });
+// }
+// });
+
 
 //////////////////////////////////////////////////////////////
 // HAMBURGER MENU
@@ -299,8 +319,15 @@ for(var i = 0;i<allrooms.length;i++){
             membercount.innerHTML = "Available Space: "+jsonobj[i].memberamount;
             join.id = jsonobj[i].id;
             join.innerHTML = "JOIN THIS ROOM!";
-            // JOIN BUTTON CLICKED
+            //join.onclick = joinclick(join.id,justname);
+            
+            all.appendChild(chat);
+            all.appendChild(membercount);
+            all.appendChild(join);
+            document.body.appendChild(all);
+            //JOIN BUTTON CLICKED
             join.addEventListener("click",async()=>{
+                let str = chat.innerHTML.replace("Room Name: ","");
                 let postdata = await fetch("/check-room",{
                     method:'POST',
                     headers:{
@@ -311,7 +338,7 @@ for(var i = 0;i<allrooms.length;i++){
                 });
                 let jsonres = await postdata.json();
                 if(jsonres.success == "true"){
-                    socket.emit("joinroom",join.id,justname,jsonres.name,jsonres.chatowner);
+                    socket.emit("joinroom",join.id,str,jsonres.name,jsonres.chatowner);
                 }
                 else{
                  swal({
@@ -323,10 +350,6 @@ for(var i = 0;i<allrooms.length;i++){
                 }
              });
          /////////////////////////////////////////////
-            all.appendChild(chat);
-            all.appendChild(membercount);
-            all.appendChild(join);
-            document.body.appendChild(all);
             chat.onwheel = function(event){
                 this.scrollLeft -= (event.deltaY);
                 event.preventDefault();
@@ -385,3 +408,27 @@ memberamount.onwheel = function(event){
     event.preventDefault();
 }
 //////////////////////////////////////////////////////////////////
+// BAK SİL
+async function joinclick(id,justname){
+        console.log("basıyorum");
+        let postdata = await fetch("/check-room",{
+            method:'POST',
+            headers:{
+                 'Accept': 'application/json',
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify({"id":id})
+        });
+        let jsonres = await postdata.json();
+        if(jsonres.success == "true"){
+            socket.emit("joinroom",id,justname,jsonres.name,jsonres.chatowner);
+        }
+        else{
+         swal({
+             title: "ROOM IS NOT AVAILABLE!",
+             text: "This Room's Capacity Is Full! ",
+             icon: "error",
+             button: "Close This Alert",
+           });
+        }
+}

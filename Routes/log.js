@@ -11,6 +11,7 @@ const chats = require("../chats");
 const req = require("express/lib/request");
 const res = require("express/lib/response");
 const { request } = require("http");
+const { Mongoose } = require("mongoose");
 let username; 
 require("dotenv").config();
 
@@ -30,6 +31,7 @@ router.get("/sign-out",(req,res)=>{
 res.clearCookie('jwt');
 res.clearCookie('reload');
 res.send("session ended");
+console.log("sign-out oldu");
 });
 
 router.get('/sign-up',(req,res)=>{
@@ -66,7 +68,7 @@ router.post("/login",async(req,res)=>{
         res.render("index.ejs",{error:"Password Is Wrong"});
     }
     else{
-        const maxage = 2*60;
+        const maxage = 10*60;
         const token = jwt.sign({name:req.body.name},process.env.secret,{
             expiresIn:maxage
         });
@@ -85,8 +87,9 @@ router.post("/sign-up",async(req,res)=>{
 const user = new User(req.body);
 try{
 const post = await user.save();
-let token = jwt.sign({name: req.body.name},process.env.secret,{expiresIn:120})
-res.cookie('jwt',token,{httpOnly:true,maxAge:1000})
+const maxage = 10*60;
+let token = jwt.sign({name: req.body.name},process.env.secret,{expiresIn:maxage})
+res.cookie('jwt',token,{httpOnly:true,maxAge:maxage*1000})
 res.redirect("/homepage");
 }
 catch(e){
@@ -159,7 +162,7 @@ router.get("/all-rooms",check,async(req,res)=>{
     let send = await chats.find({_id:{$in:array}},{_id:1,chatname:1,memberamount:1});
     for( var i = 0;i<array.length;i++){
         chatarray[i] = {
-            "id":array[i],
+            "id":send[i]._id,
             "chatname":send[i].chatname,
             "memberamount":send[i].memberamount
         }
@@ -212,12 +215,14 @@ else{
 
 // CHECK ROOM AVAILABILITY AND JOIN
 router.post("/check-room",check,async(req,res)=>{
-let ad = jwt.verify(req.cookies.jwt,process.env.secret);   
-let chat = await chats.find({_id:req.body.id},{userinroom:1,memberamount:1,chatowner:1});
+let ad = jwt.verify(req.cookies.jwt,process.env.secret);
+let chat = await chats.find({_id:req.body.id},{userinroom:1,memberamount:1,chatowner:1,chatname:1});
 if(chat[0].userinroom == chat[0].memberamount){
+    console.log(chat[0].chatname+" "+chat[0]._id+" "+req.body.id);
     res.json({"success":"false","name":ad.name});
 }
 else{
+    console.log(chat[0].chatname+" "+chat[0]._id+" "+req.body.id);
     await chats.updateOne({_id:req.body.id},{$inc:{userinroom:1}});
     res.clearCookie('reload');
     res.json({"success":"true","name":ad.name,"chatowner":chat[0].chatowner});
@@ -232,6 +237,7 @@ router.get("/getname",(req,res)=>{
 /////////////////////////////////////////
 // DECREASE ROOM AVAILABILITY
 router.post("/decreaseroom",check,async(req,res)=>{
+    console.log(req.body.id);
     await chats.updateOne({_id:req.body.id},{$inc:{userinroom:-1}});
 });
 ////////////////////////////////////////

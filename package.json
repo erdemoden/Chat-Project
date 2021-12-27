@@ -21,6 +21,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.0.6",
     "socket.io": "^4.3.1",
+    "superagent": "^6.1.0",
     "sweetalert": "^2.1.2"
   }
 }
