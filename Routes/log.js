@@ -236,9 +236,11 @@ router.get("/getname",(req,res)=>{
 });
 /////////////////////////////////////////
 // DECREASE ROOM AVAILABILITY
-router.post("/decreaseroom",check,async(req,res)=>{
+router.post("/decreaseroom",async(req,res)=>{
     console.log(req.body.id);
-    await chats.updateOne({_id:req.body.id},{$inc:{userinroom:-1}});
+    chats.updateOne({_id:req.body.id},{$inc:{userinroom:-1}},(err,data)=>{
+        res.json(data);
+    });
 });
 ////////////////////////////////////////
 //sil 

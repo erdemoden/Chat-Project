@@ -1,4 +1,4 @@
-const superagent = require('superagent');
+const axios = require('axios');
 const express = require('express');
 const app = express();
 const cookieparser = require('cookie-parser');
@@ -70,26 +70,28 @@ io.on('connection',(socket)=>{
             rooms[socket.chatid].splice(index,1);
         }
         if(socket.chatid!=undefined&&rooms[socket.chatid].length==1){
-            superagent
-            .post('http://localhost:1998/decreaseroom')
-            .send({ "id":socket.chatid}) 
-            .set('X-API-Key', 'foobar')
-            .set('accept', 'json')
-            .end((err, res) => {
-                console.log(res);
-});
+            axios.post('http://localhost:1998/decreaseroom', {
+                "id":socket.chatid
+              })
+              .then(function (response) {
+                console.log(response);
+              })
+              .catch(function (error) {
+                console.log("hata oldu");
+              });
             console.log("bir kişilik olan çalıştı");
         }
         else if (socket.chatid!=undefined&&rooms[socket.chatid].length>1){
             let checkname = rooms[socket.chatid][rooms[socket.chatid].length-1];
-            superagent
-            .post('http://localhost:1998/decreaseroom')
-            .send({ "id":socket.chatid}) 
-            .set('X-API-Key', 'foobar')
-            .set('accept', 'json')
-            .end((err, res) => {
-                console.log(res);
-});
+            axios.post('http://localhost:1998/decreaseroom', {
+                "id":socket.chatid
+              })
+              .then(function (response) {
+                console.log(response);
+              })
+              .catch(function (error) {
+                console.log("hata oldu");
+              });
             socket.broadcast.to(socket.chatid).emit("eraseuser",socket.names,socket.chatid,checkname);
         }
         else{
