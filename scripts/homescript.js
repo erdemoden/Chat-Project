@@ -37,7 +37,7 @@ let create = document.getElementsByClassName("create");
     }
         if(users.length>0)
         {
-            console.log(username1 + " "+chatowner+" "+ rooms[id][rooms[id].length-1]);
+            console.log("users 0 dan büyük");
             if(username1.name==chatowner){
                 if(users[users.length-1].innerHTML!=rooms[id][rooms[id].length-1]){
                     let isimler = document.createElement("div");
@@ -56,6 +56,7 @@ let create = document.getElementsByClassName("create");
             }
             else{
                    if(users[users.length-1].innerHTML!=rooms[id][rooms[id].length-1]){
+                       console.log("kullanıcı oda sahibi değil"+" "+users[users.length-1].innerHTML+" "+rooms[id][rooms[id].length-1]);
                         let isimler = document.createElement("div");
                         isimler.className = "alert alert-primary users";
                         isimler.innerHTML = rooms[id][rooms[id].length-1];
@@ -80,6 +81,7 @@ let create = document.getElementsByClassName("create");
             }
         }
         }
+        console.log("users 0 dan küçük"+rooms[id].length);
     }
         });
 ///////////////////////////////////////////////////////////////
@@ -131,17 +133,6 @@ socket.on("eraseuser",async(name,chatid,checkname)=>{
             }
         }
     }
-//     if(checkname == userpresent.name){
-//     let postdata = await fetch("/decreaseroom",{
-//         method:'POST',
-//         headers:{
-//              'Accept': 'application/json',
-//             'Content-Type':'application/json'
-//         },
-//         body:JSON.stringify({"id":chatid})
-//     });
-//     console.log(await postdata.json().oldu);
-// }
 });
 //////////////////////////////////////////////////////////////
 // // DECREASE ROOM TO 0

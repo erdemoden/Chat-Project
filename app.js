@@ -39,7 +39,7 @@ io.on('connection',(socket)=>{
         socket.chatid = id;
         socket.names = username;
         socket.deletecount = 0;
-        socket.connected = true;
+        socket.isconnected = true;
         roomid = id;
         if(id in rooms&&rooms[id].includes(username)!=true){
             rooms[id].push(username);
@@ -65,21 +65,25 @@ io.on('connection',(socket)=>{
     //     socket.disconnect();
     // });
         socket.on("disconnect",async()=>{
-            if(socket.connected == true){
-            let index = rooms[socket.chatid].indexOf(socket.names);
-            rooms[socket.chatid].splice(index,1);
-        }
         if(socket.chatid!=undefined&&rooms[socket.chatid].length==1){
             axios.post('http://localhost:1998/decreaseroom', {
                 "id":socket.chatid
               })
               .then(function (response) {
-                console.log(response);
+                console.log("çalıştı");
               })
               .catch(function (error) {
                 console.log("hata oldu");
               });
             console.log("bir kişilik olan çalıştı");
+            if(socket.isconnected == true){
+              let index = rooms[socket.chatid].indexOf(socket.names);
+              rooms[socket.chatid].splice(index,1);
+              console.log("rooms silindi");
+          }
+          else{
+            console.log("rooms silinmedi");
+          }
         }
         else if (socket.chatid!=undefined&&rooms[socket.chatid].length>1){
             let checkname = rooms[socket.chatid][rooms[socket.chatid].length-1];
@@ -87,11 +91,19 @@ io.on('connection',(socket)=>{
                 "id":socket.chatid
               })
               .then(function (response) {
-                console.log(response);
+                console.log("çalıştı");
               })
               .catch(function (error) {
                 console.log("hata oldu");
               });
+              if(socket.isconnected == true){
+                let index = rooms[socket.chatid].indexOf(socket.names);
+                rooms[socket.chatid].splice(index,1);
+                console.log("rooms silindi");
+            }
+            else{
+              console.log("rooms silinmedi");
+            }
             socket.broadcast.to(socket.chatid).emit("eraseuser",socket.names,socket.chatid,checkname);
         }
         else{
