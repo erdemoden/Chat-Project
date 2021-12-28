@@ -49,6 +49,9 @@ let create = document.getElementsByClassName("create");
                     ban.className = "btn btn-danger bans";
                     ban.id = rooms[id][rooms[id].length-1];
                     ban.innerHTML = "BAN THIS USER!";
+                    ban.addEventListener("click",()=>{
+                        socket.emit("banprocess",ban.id);
+                    });
                     document.getElementById("isimler").appendChild(ban);
                     }
                 }
@@ -77,6 +80,9 @@ let create = document.getElementsByClassName("create");
             ban.className = "btn btn-danger bans";
             ban.id = rooms[id][i];
             ban.innerHTML = "BAN THIS USER!";
+            ban.addEventListener("click",()=>{
+                socket.emit("banprocess",ban.id);
+            });
             document.getElementById("isimler").appendChild(ban);
             }
         }
@@ -116,6 +122,8 @@ socket.on("gotmessage",async(message,sendername)=>{
 //     socket.emit("leave",username.name);
 // });
 // //////////////////////////////////////////////////////////////
+
+// ERASE LEAVING USER FROM OTHER USERS 
 socket.on("eraseuser",async(name,chatid,checkname)=>{
     let getname = await fetch("/getname");
     let userpresent = await getname.json();
@@ -132,6 +140,32 @@ socket.on("eraseuser",async(name,chatid,checkname)=>{
                 bans[i].remove();
             }
         }
+    }
+});
+
+//ERASE BANNED USER FROM OTHER USERS AND BAN THE USER
+socket.on("banit",async(username,chatid)=>{
+    let getname = await fetch("/getname");
+    let username1 = await getname.json(); 
+    if(username1.name == username){
+        await fetch("/banuser",{
+            method:'POST',
+            headers:{
+            'Accept': 'application/json',
+            'Content-Type':'application/json'
+                       },
+        body:JSON.stringify({"id":chatid})
+        });
+        location.reload();
+        swal({
+            title: "YOU ARE BANNED FROM THE CHAT!",
+            text: "Until Chat Owner Remove Your Ban You Are Banned! ",
+            icon: "error",
+            button: "Close This Alert",
+          });
+    }
+    else{
+        console.log("çalışmadı");
     }
 });
 //////////////////////////////////////////////////////////////
@@ -331,13 +365,21 @@ for(var i = 0;i<allrooms.length;i++){
                 if(jsonres.success == "true"){
                     socket.emit("joinroom",join.id,str,jsonres.name,jsonres.chatowner);
                 }
-                else{
+                else if (jsonres.success == "false"){
                  swal({
                      title: "ROOM IS NOT AVAILABLE!",
                      text: "This Room's Capacity Is Full! ",
                      icon: "error",
                      button: "Close This Alert",
                    });
+                }
+                else if(jsonres.success == "banned"){
+                    swal({
+                        title: "YOU ARE BANNED FROM THE CHAT!",
+                        text: "Until Chat Owner Remove Your Ban You Are Banned! ",
+                        icon: "error",
+                        button: "Close This Alert",
+                      });
                 }
              });
          /////////////////////////////////////////////
@@ -400,26 +442,3 @@ memberamount.onwheel = function(event){
 }
 //////////////////////////////////////////////////////////////////
 // BAK SİL
-async function joinclick(id,justname){
-        console.log("basıyorum");
-        let postdata = await fetch("/check-room",{
-            method:'POST',
-            headers:{
-                 'Accept': 'application/json',
-                'Content-Type':'application/json'
-            },
-            body:JSON.stringify({"id":id})
-        });
-        let jsonres = await postdata.json();
-        if(jsonres.success == "true"){
-            socket.emit("joinroom",id,justname,jsonres.name,jsonres.chatowner);
-        }
-        else{
-         swal({
-             title: "ROOM IS NOT AVAILABLE!",
-             text: "This Room's Capacity Is Full! ",
-             icon: "error",
-             button: "Close This Alert",
-           });
-        }
-}

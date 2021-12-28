@@ -57,13 +57,9 @@ io.on('connection',(socket)=>{
     socket.on("leavechat",()=>{
         socket.disconnect();
     });
-    // socket.on("leave",(username)=>{
-    //     //let id = getKeyByValue(rooms,username);
-    //     let index = rooms[socket.chatid].indexOf(username);
-    //     rooms[socket.chatid].splice(index,1);
-    //     //socket.broadcast.to(socket.chatid).emit("eraseusername",username);
-    //     socket.disconnect();
-    // });
+    socket.on("banprocess",(username)=>{
+      socket.broadcast.to(socket.chatid).emit("banit",username,socket.chatid);
+    });
         socket.on("disconnect",async()=>{
         if(socket.chatid!=undefined&&rooms[socket.chatid].length==1){
             axios.post('http://localhost:1998/decreaseroom', {
