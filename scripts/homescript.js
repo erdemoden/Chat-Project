@@ -1,4 +1,3 @@
-
 // ALL VARIABLES
 let create = document.getElementsByClassName("create");
     let createroom = document.getElementsByClassName("create-room");
@@ -10,6 +9,7 @@ let create = document.getElementsByClassName("create");
     let chatname = document.getElementById("chatname");
     let yourrooms = document.getElementsByClassName("yourrooms");
     let allrooms = document.getElementsByClassName("allrooms");
+    let homebutton = document.getElementsByClassName("home");
     let chatscreen = document.getElementById("chat");
     let chattitle = document.getElementById("titlebar");
     let joinroom = document.getElementsByClassName("join");
@@ -453,7 +453,54 @@ location.reload();
 });
 
 
-
+// HOME BUTTON
+for(var i = 0;i<homebutton.length;i++){
+    if(i==0||i==1){
+    homebutton[i].addEventListener("click",async()=>{
+    if(document.getElementsByClassName("create-room1").length>0){
+        document.querySelectorAll('.create-room1').forEach(e => e.remove());
+    }
+    if(document.getElementsByClassName("create-room").length>0){
+        document.querySelectorAll('.create-room').forEach(e => e.style.display="none");
+    }
+    const response = await fetch("/banned-user");
+    const jsonobj = await response.json();
+    if(jsonobj.length<=0){
+        console.log("merhaba");
+        swal({
+            title: "YOU DID NOT BAN ANYONE",
+            text: "If You Ban Someone You Can See The List",
+            icon: "error",
+            button: "Close This Alert",
+          });
+    }
+    else{
+        console.log("büyük");
+        for(var i =0;i<jsonobj.length;i++){
+            let all = document.createElement('nav');
+            let chat = document.createElement('p');
+            let banneduser = document.createElement('p');
+            let unban = document.createElement('button');
+            all.className = "navbar navbar-dark bg-dark create-room1";
+            unban.id = jsonobj[i].userid;
+            all.id = jsonobj[i].chatid;
+            chat.id = "chatname";
+            banneduser.id = "memberamount";
+            banneduser.innerHTML = "User Name : "+jsonobj[i].username;
+            chat.innerHTML = "Chat Name : "+jsonobj[i].chatname;
+            unban.className = "btn btn-danger join";
+            unban.setAttribute("style","font-weight: bolder; margin-top: 85px; float: left; margin-left: 30px; margin-left: 50%; transform: translate(-50%, -50%);height: 100px; width: 300px;");
+            unban.innerHTML = "UNBAN THIS USER!";   
+            all.appendChild(chat);
+            all.appendChild(banneduser);
+            all.appendChild(unban);
+            document.body.appendChild(all);
+            document.getElementsByClassName("create-room1")[i].style.display = "block";
+        }
+    }
+    });
+    }
+    }
 
 /////////////////////////////////////////////////////////////
 // ON WHELL FUNCTIONS
@@ -476,4 +523,3 @@ memberamount.onwheel = function(event){
     event.preventDefault();
 }
 //////////////////////////////////////////////////////////////////
-// BAK SİL

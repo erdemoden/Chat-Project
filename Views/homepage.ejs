@@ -115,6 +115,10 @@
        right:0px;
     }
     .hbuttons{
+        position: fixed;
+        top: 0px;
+        z-index: 1;
+        width: 100%;
         background-color:rgb(136, 130, 130); 
         text-align: center;
         display: none; 
@@ -132,7 +136,7 @@
     #buttons{
         display: block;
         font-weight: bolder;
-        margin-left: 100px;
+        margin-left: 60px;
     }
     #login,#create{
         margin: 0;
@@ -268,12 +272,12 @@
     }
     @media  screen and (max-width:1358px) {
         #buttons{
-            margin-left: 80px;
+            margin-left: 50px;
         }
     }
     @media  screen and (max-width:1250px) {
         #buttons{
-            margin-left: 70px;
+            margin-left: 43px;
         }
         #limessage{
             width: 85%;
@@ -284,27 +288,27 @@
     }
     @media  screen and (max-width:1210px) {
         #buttons{
-            margin-left: 60px;
+            margin-left: 35px;
         }
     }
     @media  screen and (max-width:1160px) {
         #buttons{
-            margin-left: 50px;
+            margin-left: 30px;
         }
     }
     @media  screen and (max-width:1120px) {
         #buttons{
-            margin-left: 40px;
+            margin-left: 22px;
         }
     }
     @media  screen and (max-width:1080px) {
         #buttons{
-            margin-left: 30px;
+            margin-left: 16px;
         }
     }
     @media  screen and (max-width:1035px) {
         #buttons{
-            margin-left: 20px;
+            margin-left: 10px;
         }
         #chatword{
         width: 76%
@@ -397,7 +401,7 @@
         width: 85%;
     }
     #buttons{
-        margin-left: 80px;
+        margin-left: 60px;
     }
     }
     @media screen and (min-width:1600px){
@@ -414,7 +418,7 @@
         width: 85%;
     }
     #buttons{
-        margin-left: 130px;
+        margin-left: 80px;
     }
     .create-room{
         width: 35%;
@@ -437,7 +441,7 @@
         width: 65%;
     }
     #buttons{
-        margin-left: 200px;
+        margin-left: 90px;
     }
     .white{
         font-size: x-large;
@@ -457,7 +461,7 @@
         width: 50%;
     }
     #buttons{
-        margin-left: 230px;
+        margin-left: 100px;
     }
     }
     @media screen and (min-width:2200px){
@@ -474,7 +478,7 @@
         width: 45%;
     }
     #buttons{
-        margin-left: 250px;
+        margin-left: 110px;
     }
     }
     @media screen and (min-width:2350px){
@@ -491,7 +495,7 @@
         width: 35%;
     }
     #buttons{
-        margin-left: 270px;
+        margin-left: 120px;
     }
     }
     @media screen and (min-width:2500px){
@@ -508,7 +512,7 @@
         width: 30%;
     }
     #buttons{
-        margin-left: 270px;
+        margin-left: 130px;
     }
     .create-room{
         width: 25%;
@@ -548,12 +552,14 @@
      <nav class="navbar navbar-dark bg-dark fixed-top shadow">
          <button type="button" class="hamburger"><img src="/hamburger.png"></button>
         <h1 class="white owner" style="display: block;">Welcome <%= data.ad%></h1>
+        <button type="button" class="btn btn-success home" id="buttons">Bans</button>
         <button type="button" class="btn btn-success create" id="buttons">Create Your Chat Room</button>
         <button type="button" class="btn btn-success create yourrooms" id="buttons">Your Chat Rooms</button>
         <button type="button" class="btn btn-success create allrooms" id="buttons">All Chat Rooms</button>
         <button type="button" class="btn btn-success sign-out" id="buttons">Sign-Out</button>
       </nav>
         <ul class="hbuttons">
+            <li style="margin-top: 50px;"><button type="button" class="btn btn-success home">Bans</button></li>
             <li><button type="button" class="btn btn-success create">Create Your Chat Room</button></li>
            <li><button type="button" class="btn btn-success create yourrooms">Your Chat Rooms</button></li>
            <li><button type="button" class="btn btn-success create allrooms">All Chat Rooms</button></li>
@@ -626,7 +632,14 @@
         </ul>
         </div>
     </div>
-    
+    <!-- DENE SİL-->
+    <p style="text-align: center; font-weight: bolder; margin-top: 100px;">BANNED USER FROM YOUR CHAT</p>
+    <hr>
+    <nav class="navbar navbar-dark bg-dark create-room1"></nav>
+    <hr>
+    <p style="text-align: center; font-weight: bolder; margin-top: 30px;">CHATS YOU HAVE BANNED</p>
+    <hr>
+    <!------------------------------------------>
     <!-- ----------------------------------------------------------------------->
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>

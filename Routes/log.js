@@ -2,7 +2,7 @@ const express = require("express")
 const router = express.Router();
 const User = require('../users2');
 const jwt = require('jsonwebtoken');
-const { rawListeners, findOneAndRemove, updateOne } = require("../users2");
+const { rawListeners, findOneAndRemove, updateOne, findOne } = require("../users2");
 const bcyrpt = require('bcrypt');
 const {check} = require("./Auth");
 const users2 = require("../users2");
@@ -213,6 +213,9 @@ let canijoin = true;
 let ad = jwt.verify(req.cookies.jwt,process.env.secret);
 let isbanned = await users2.find({name:ad.name},{bannedchat:1,_id:0});
 let chat = await chats.find({_id:req.body.id},{userinroom:1,memberamount:1,chatowner:1,chatname:1,_id:1});
+if(!chat[0]){
+    res.json({"success":"noroom","name":ad.name});
+}
 for(let i = 0;i<isbanned.length;i++){
    //console.log(canijoin +" chat-id: "+chat[0]._id+"isbanned-id: "+isbanned[i].bannedchat);
     if(chat[0]._id.toString() == isbanned[i].bannedchat){
@@ -223,10 +226,8 @@ for(let i = 0;i<isbanned.length;i++){
         console.log("eşit değil "+isbanned[i].bannedchat);
     }
 }
-if(!chat[0]){
-    res.json({"success":"noroom","name":ad.name});
-}
-else if(canijoin == false){
+
+if(canijoin == false){
     res.json({"success":"banned","name":ad.name});
 }
 else if(chat[0].userinroom == chat[0].memberamount&&canijoin == true){
@@ -264,7 +265,7 @@ router.post("/banuser",async(req,res)=>{
 router.post("/deleteroom",async(req,res)=>{
     try{
 let ad = jwt.verify(req.cookies.jwt,process.env.secret); 
-let deleteuserchat = await updateOne({name:ad.name},{$pull:{chat:req.body.id}});
+let deleteuserchat = await users2.updateOne({name:ad.name},{$pull:{chat:req.body.id}});
 if(deleteuserchat){
 let chatid = await chats.findOneAndRemove({_id:req.body.id});
 res.json({"success":"true"});
@@ -274,6 +275,26 @@ res.json({"success":"true"});
         console.log("hata");
     }
 
+});
+/////////////////////////////////////
+// BANNED-USERS
+router.get("/banned-user",async(req,res)=>{
+let banneds = [];
+let ad = jwt.verify(req.cookies.jwt,process.env.secret);
+let mychats = await users2.find({name:ad.name},{chat:1,_id:0});
+let array = mychats[0].chat;
+let send = await users2.find({bannedchat:{$in:array}},{_id:1,name:1,bannedchat:1});
+for(var j = 0;j<send.length;j++){
+    let chatnames = await chats.find({_id:send[j].bannedchat},{chatname:1,_id:0});
+    let username = await users2.find({_id:send[j]._id});
+    banneds[j] = {
+        "userid":send[j]._id,
+        "chatid":send[j].bannedchat,
+        "username":username[0].name,
+        "chatname":chatnames[0].chatname
+    }
+}
+res.json(banneds);
 });
 ///////////////////////////////////////
 //sil 
