@@ -2,7 +2,7 @@ const express = require("express")
 const router = express.Router();
 const User = require('../users2');
 const jwt = require('jsonwebtoken');
-const { rawListeners } = require("../users2");
+const { rawListeners, findOneAndRemove, updateOne } = require("../users2");
 const bcyrpt = require('bcrypt');
 const {check} = require("./Auth");
 const users2 = require("../users2");
@@ -29,7 +29,6 @@ else{
 // Sign-Out Clear jwt
 router.get("/sign-out",(req,res)=>{
 res.clearCookie('jwt');
-res.clearCookie('reload');
 res.send("session ended");
 console.log("sign-out oldu");
 });
@@ -112,7 +111,6 @@ await chat.save();
 let Gonder = await bcyrpt.hash("başarılı",5);
 await users2.updateOne({name:ad.name},{$push:{chat:chat._id}});
 res.cookie('success',Gonder);
-res.clearCookie("reload");
 res.redirect("/create-room-s");
 }
 else{
@@ -139,8 +137,6 @@ for( var i = 0;i<array.length;i++){
         "memberamount":send[i].memberamount
     }
 }
-let Gonder = await bcyrpt.hash("noreload",5);
-res.cookie('reload',Gonder);
 res.json(chatarray);
 }
 catch{
@@ -167,8 +163,6 @@ router.get("/all-rooms",check,async(req,res)=>{
             "memberamount":send[i].memberamount
         }
     }
-    let Gonder = await bcyrpt.hash("noreload",5);
-    res.cookie('reload',Gonder);
     res.json(chatarray);
     }
     catch{
@@ -229,7 +223,10 @@ for(let i = 0;i<isbanned.length;i++){
         console.log("eşit değil "+isbanned[i].bannedchat);
     }
 }
-if(canijoin == false){
+if(!chat[0]){
+    res.json({"success":"noroom","name":ad.name});
+}
+else if(canijoin == false){
     res.json({"success":"banned","name":ad.name});
 }
 else if(chat[0].userinroom == chat[0].memberamount&&canijoin == true){
@@ -239,7 +236,6 @@ else if(chat[0].userinroom == chat[0].memberamount&&canijoin == true){
 else{
     console.log(chat[0].chatname+" "+chat[0]._id+" "+req.body.id);
     await chats.updateOne({_id:req.body.id},{$inc:{userinroom:1}});
-    res.clearCookie('reload');
     res.json({"success":"true","name":ad.name,"chatowner":chat[0].chatowner});
 }
 });
@@ -263,6 +259,21 @@ router.post("/banuser",async(req,res)=>{
     let ad = jwt.verify(req.cookies.jwt,process.env.secret);
     await users2.updateOne({name:ad.name},{$push:{bannedchat:req.body.id}});
     res.json({"success":"true"});
+});
+// DELETE ROOM
+router.post("/deleteroom",async(req,res)=>{
+    try{
+let ad = jwt.verify(req.cookies.jwt,process.env.secret); 
+let deleteuserchat = await updateOne({name:ad.name},{$pull:{chat:req.body.id}});
+if(deleteuserchat){
+let chatid = await chats.findOneAndRemove({_id:req.body.id});
+res.json({"success":"true"});
+}
+    }
+    catch{
+        console.log("hata");
+    }
+
 });
 ///////////////////////////////////////
 //sil 

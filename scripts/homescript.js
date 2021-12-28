@@ -1,3 +1,4 @@
+
 // ALL VARIABLES
 let create = document.getElementsByClassName("create");
     let createroom = document.getElementsByClassName("create-room");
@@ -268,7 +269,27 @@ for(var i = 0;i<yourrooms.length;i++){
             deleteroom.id = jsonobj[i].id;
             join.innerHTML = "JOIN THIS ROOM!";
             deleteroom.innerHTML = "DELETE THIS ROOM!";
-
+            // DELETE BUTTON CLICKED
+            deleteroom.addEventListener("click",async()=>{
+                let postdata = await fetch("/deleteroom",{
+                    method:'POST',
+                    headers:{
+                        'Accept': 'application/json',
+                        'Content-Type':'application/json'
+                    },
+                    body:JSON.stringify({"id":deleteroom.id})
+                });
+                let jsonres = await postdata.json();
+                if(jsonres.success == "true"){
+                    swal({
+                        title: "ROOM IS DELETED!",
+                        text: "You Have Deleted Your Room",
+                        icon: "success",
+                        button: "Close This Alert",
+                      });
+                }
+            });
+            ////////////////////////////////////////////
             // JOIN BUTTON CLICKED
                 join.addEventListener("click",async()=>{
                    let postdata = await fetch("/check-room",{
@@ -290,7 +311,7 @@ for(var i = 0;i<yourrooms.length;i++){
                         icon: "error",
                         button: "Close This Alert",
                       });
-                   }
+                    }
                 });
             /////////////////////////////////////////////
             all.appendChild(chat);
@@ -383,6 +404,14 @@ for(var i = 0;i<allrooms.length;i++){
                     swal({
                         title: "YOU ARE BANNED FROM THE CHAT!",
                         text: "Until Chat Owner Remove Your Ban You Are Banned! ",
+                        icon: "error",
+                        button: "Close This Alert",
+                      });
+                }
+                else if(jsonres.success == "noroom"){
+                    swal({
+                        title: "THIS ROOM IS DELETED!",
+                        text: "PLEASE REFRESH THE PAGE",
                         icon: "error",
                         button: "Close This Alert",
                       });
