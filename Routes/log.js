@@ -296,6 +296,14 @@ for(var j = 0;j<send.length;j++){
 }
 res.json(banneds);
 });
+//////////////////////////////////////////////
+// UNBAN_USER
+router.post("/unbanuser",async(req,res)=>{
+    let deleteuserchat = await users2.updateOne({_id:req.body.userid},{$pull:{bannedchat:req.body.chatid}});
+    if(deleteuserchat){
+        res.json({"success":"true"});
+    }
+});
 ///////////////////////////////////////
 //sil 
 router.get("/delete",async(req,res)=>{

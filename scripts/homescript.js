@@ -287,6 +287,7 @@ for(var i = 0;i<yourrooms.length;i++){
                         icon: "success",
                         button: "Close This Alert",
                       });
+                      all.remove();
                 }
             });
             ////////////////////////////////////////////
@@ -490,7 +491,29 @@ for(var i = 0;i<homebutton.length;i++){
             chat.innerHTML = "Chat Name : "+jsonobj[i].chatname;
             unban.className = "btn btn-danger join";
             unban.setAttribute("style","font-weight: bolder; margin-top: 85px; float: left; margin-left: 30px; margin-left: 50%; transform: translate(-50%, -50%);height: 100px; width: 300px;");
-            unban.innerHTML = "UNBAN THIS USER!";   
+            unban.innerHTML = "UNBAN THIS USER!";
+            // UNBAN CLICKED
+            unban.addEventListener("click",async()=>{
+                let postdata = await fetch("/unbanuser",{
+                    method:'POST',
+                    headers:{
+                        'Accept': 'application/json',
+                        'Content-Type':'application/json'
+                    },
+                    body:JSON.stringify({"userid":unban.id,"chatid":all.id})
+                });
+                let jsonres = await postdata.json();
+
+                if(jsonres.success == "true"){
+                    swal({
+                        title: "UNBAN PROCESS HAPPENED!",
+                        text: "You Unbanned The User",
+                        icon: "success",
+                        button: "Close This Alert",
+                      });
+                      all.remove();
+                }
+            }); 
             all.appendChild(chat);
             all.appendChild(banneduser);
             all.appendChild(unban);
