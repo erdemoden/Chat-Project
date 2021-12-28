@@ -215,15 +215,24 @@ else{
 
 // CHECK ROOM AVAILABILITY AND JOIN
 router.post("/check-room",check,async(req,res)=>{
+let canijoin = true;
 let ad = jwt.verify(req.cookies.jwt,process.env.secret);
 let isbanned = await users2.find({name:ad.name},{bannedchat:1,_id:0});
 let chat = await chats.find({_id:req.body.id},{userinroom:1,memberamount:1,chatowner:1,chatname:1,_id:1});
-for(var i = 0;i<isbanned.length;i++){
-    if(chat[0]._id == isbanned[i].bannedchat){
-        res.json({"success":"banned","name":ad.name});
+for(let i = 0;i<isbanned.length;i++){
+   //console.log(canijoin +" chat-id: "+chat[0]._id+"isbanned-id: "+isbanned[i].bannedchat);
+    if(chat[0]._id.toString() == isbanned[i].bannedchat){
+        canijoin = false;
+        console.log("eşit değil mi");
+    }
+    else{
+        console.log("eşit değil "+isbanned[i].bannedchat);
     }
 }
-if(chat[0].userinroom == chat[0].memberamount){
+if(canijoin == false){
+    res.json({"success":"banned","name":ad.name});
+}
+else if(chat[0].userinroom == chat[0].memberamount&&canijoin == true){
     console.log(chat[0].chatname+" "+chat[0]._id+" "+req.body.id);
     res.json({"success":"false","name":ad.name});
 }
@@ -252,7 +261,8 @@ router.post("/decreaseroom",async(req,res)=>{
 //BAN THE USER
 router.post("/banuser",async(req,res)=>{
     let ad = jwt.verify(req.cookies.jwt,process.env.secret);
-    await users2.updateOne({name:ad.name},{$push:{bannedchat:req.id}});
+    await users2.updateOne({name:ad.name},{$push:{bannedchat:req.body.id}});
+    res.json({"success":"true"});
 });
 ///////////////////////////////////////
 //sil 

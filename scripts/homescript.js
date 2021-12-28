@@ -51,6 +51,7 @@ let create = document.getElementsByClassName("create");
                     ban.innerHTML = "BAN THIS USER!";
                     ban.addEventListener("click",()=>{
                         socket.emit("banprocess",ban.id);
+                        console.log("ban a basıldı");
                     });
                     document.getElementById("isimler").appendChild(ban);
                     }
@@ -82,6 +83,7 @@ let create = document.getElementsByClassName("create");
             ban.innerHTML = "BAN THIS USER!";
             ban.addEventListener("click",()=>{
                 socket.emit("banprocess",ban.id);
+                console.log("ban a basıldı");
             });
             document.getElementById("isimler").appendChild(ban);
             }
@@ -146,9 +148,10 @@ socket.on("eraseuser",async(name,chatid,checkname)=>{
 //ERASE BANNED USER FROM OTHER USERS AND BAN THE USER
 socket.on("banit",async(username,chatid)=>{
     let getname = await fetch("/getname");
-    let username1 = await getname.json(); 
+    let username1 = await getname.json();
     if(username1.name == username){
-        await fetch("/banuser",{
+        console.log("banit fonksiyonu"+username1.name+" "+username); 
+        let postdata = await fetch("/banuser",{
             method:'POST',
             headers:{
             'Accept': 'application/json',
@@ -156,14 +159,17 @@ socket.on("banit",async(username,chatid)=>{
                        },
         body:JSON.stringify({"id":chatid})
         });
-        location.reload();
+        let banned = await postdata.json();
+        if(banned.success == "true"){
         swal({
             title: "YOU ARE BANNED FROM THE CHAT!",
             text: "Until Chat Owner Remove Your Ban You Are Banned! ",
             icon: "error",
             button: "Close This Alert",
           });
+          location.reload();
     }
+}
     else{
         console.log("çalışmadı");
     }
