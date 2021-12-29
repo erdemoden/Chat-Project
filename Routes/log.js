@@ -216,26 +216,21 @@ let chat = await chats.find({_id:req.body.id},{userinroom:1,memberamount:1,chato
 if(!chat[0]){
     res.json({"success":"noroom","name":ad.name});
 }
-for(let i = 0;i<isbanned.length;i++){
-   //console.log(canijoin +" chat-id: "+chat[0]._id+"isbanned-id: "+isbanned[i].bannedchat);
-    if(chat[0]._id.toString() == isbanned[i].bannedchat){
+for(let i = 0;i<isbanned[0].bannedchat.length;i++){
+   //console.log(canijoin +" chat-id: "+chat[0]._id+"isbanned-id: "+isbanned[0].bannedchat[i]);
+    if(chat[0]._id.toString() == isbanned[0].bannedchat[i]){
         canijoin = false;
         console.log("eşit değil mi");
-    }
-    else{
-        console.log("eşit değil "+isbanned[i].bannedchat);
+        res.json({"success":"banned","name":ad.name});
     }
 }
 
-if(canijoin == false){
-    res.json({"success":"banned","name":ad.name});
-}
-else if(chat[0].userinroom == chat[0].memberamount&&canijoin == true){
+ if(chat[0].userinroom >= chat[0].memberamount && canijoin == true){
     console.log(chat[0].chatname+" "+chat[0]._id+" "+req.body.id);
     res.json({"success":"false","name":ad.name});
 }
-else{
-    console.log(chat[0].chatname+" "+chat[0]._id+" "+req.body.id);
+else if(chat[0].userinroom < chat[0].memberamount && canijoin==true){
+    console.log(chat[0].userinroom+" "+chat[0].memberamount);
     await chats.updateOne({_id:req.body.id},{$inc:{userinroom:1}});
     res.json({"success":"true","name":ad.name,"chatowner":chat[0].chatowner});
 }
@@ -286,7 +281,7 @@ let array = mychats[0].chat;
 let send = await users2.find({bannedchat:{$in:array}},{_id:1,name:1,bannedchat:1});
 for(var j = 0;j<send.length;j++){
     let chatnames = await chats.find({_id:send[j].bannedchat},{chatname:1,_id:0});
-    let username = await users2.find({_id:send[j]._id});
+    let username = await users2.find({name:send[j].name});
     banneds[j] = {
         "userid":send[j]._id,
         "chatid":send[j].bannedchat,
