@@ -2,7 +2,7 @@ const express = require("express")
 const router = express.Router();
 const User = require('../users2');
 const jwt = require('jsonwebtoken');
-const { rawListeners, findOneAndRemove, updateOne, findOne } = require("../users2");
+const { rawListeners, findOneAndRemove, updateOne, findOne, exists } = require("../users2");
 const bcyrpt = require('bcrypt');
 const {check} = require("./Auth");
 const users2 = require("../users2");
@@ -280,7 +280,7 @@ let ad = jwt.verify(req.cookies.jwt,process.env.secret);
 let mychats = await users2.find({name:ad.name},{chat:1,_id:0});
 let array = mychats[0].chat;
 for(var i =0;i<array.length;i++){
-    array2.push(await users2.find({},{_id:1,name:1,bannedchat:{$elemMatch:{$eq:array[i]}}}))
+    array2.push(await users2.find({bannedchat:array[i]},{_id:1,name:1,bannedchat:{$elemMatch:{$eq:array[i]}}}))
 }
 //let send = await users2.find({bannedchat:{$in:array}},{_id:1,name:1,bannedchat:1});
 // for(var j = 0;j<array2.length;j++){
