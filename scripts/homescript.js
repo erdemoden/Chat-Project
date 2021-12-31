@@ -1,3 +1,5 @@
+
+
 // ALL VARIABLES
 let create = document.getElementsByClassName("create");
     let createroom = document.getElementsByClassName("create-room");
@@ -230,7 +232,8 @@ createroom[0].style.display = "block";
 // YOUR ROOMS
 for(var i = 0;i<yourrooms.length;i++){
     if(i==0||i==1){
-        yourrooms[i].addEventListener("click",async()=>{
+            yourrooms[i].addEventListener("click",async()=>{
+                
             if(document.getElementsByClassName("create-room1").length>0){
                 document.querySelectorAll('.create-room1').forEach(e => e.remove());
         }
@@ -238,6 +241,10 @@ for(var i = 0;i<yourrooms.length;i++){
             document.querySelectorAll('.create-room').forEach(e => e.style.display="none");
         }
             const response = await fetch("/your-rooms");
+            const contentType = response.headers.get("content-type");
+            if(contentType.indexOf("application/json") == -1){
+                location.reload();
+            }
             const jsonobj = await response.json();
             console.log(jsonobj.length);
             if(jsonobj.length<=0){
