@@ -279,21 +279,34 @@ let array2 = [];
 let ad = jwt.verify(req.cookies.jwt,process.env.secret);
 let mychats = await users2.find({name:ad.name},{chat:1,_id:0,name:1});
 let array = mychats[0].chat;
-for(var i =0;i<array.length;i++){
-    array2.push(await users2.find({bannedchat:array[i]},{_id:1,name:1,bannedchat:{$elemMatch:{$eq:array[i]}}}))
-}
+//for(var i =0;i<array.length;i++){
+   // array2.push(await users2.find({},{bannedchat:{$elemMatch:{$eq:array[i]}}}))
+//}
+let bannedusers = await users2.find({},{bannedchat:1,_id:1,name:1});
+let y = 0;
 //let send = await users2.find({bannedchat:{$in:array}},{_id:1,name:1,bannedchat:1});
-for(var j = 0;j<array2.length;j++){
-    let chatnames = await chats.find({_id:array2[j][0].bannedchat},{chatname:1,_id:0});
-    let username = await users2.find({name:array2[j][0].name});
-    banneds[j] = {
-        "userid":array2[j][0]._id,
-        "chatid":array2[j][0].bannedchat,
+for(var j = 0;j<bannedusers.length;j++){
+    if(bannedusers[j].bannedchat.length>0){
+        for(var t = 0;t<array.length;t++){
+            if(bannedusers[j].bannedchat.indexOf(array[t])!=-1){
+                let index = bannedusers[j].bannedchat.indexOf(array[t]);
+    let chatnames = await chats.find({_id:bannedusers[j].bannedchat[index]},{chatname:1,_id:0});
+    let username = await users2.find({name:bannedusers[j].name});
+    banneds[y] = {
+        "userid":bannedusers[j]._id,
+        "chatid":bannedusers[j].bannedchat[index],
         "username":username[0].name,
         "chatname":chatnames[0].chatname
     }
+    y++;
+            }
+            else{
+                console.log("olmadı");
+            }
+        }
+    }
 }
-console.log(array2[1][0].name);
+//console.log(deneme);
 res.json(banneds);
 });
 //////////////////////////////////////////////
