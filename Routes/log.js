@@ -277,23 +277,23 @@ router.get("/banned-user",async(req,res)=>{
 let banneds = [];
 let array2 = [];
 let ad = jwt.verify(req.cookies.jwt,process.env.secret);
-let mychats = await users2.find({name:ad.name},{chat:1,_id:0});
+let mychats = await users2.find({name:ad.name},{chat:1,_id:0,name:1});
 let array = mychats[0].chat;
 for(var i =0;i<array.length;i++){
     array2.push(await users2.find({bannedchat:array[i]},{_id:1,name:1,bannedchat:{$elemMatch:{$eq:array[i]}}}))
 }
 //let send = await users2.find({bannedchat:{$in:array}},{_id:1,name:1,bannedchat:1});
-// for(var j = 0;j<array2.length;j++){
-//     let chatnames = await chats.find({_id:array2[j].bannedchat},{chatname:1,_id:0});
-//     let username = await users2.find({name:array2[j].name});
-//     banneds[j] = {
-//         "userid":array2[j]._id,
-//         "chatid":array2[j].bannedchat,
-//         "username":username[0].name,
-//         "chatname":chatnames[0].chatname
-//     }
-// }
-console.log(array2[0]);
+for(var j = 0;j<array2.length;j++){
+    let chatnames = await chats.find({_id:array2[j][0].bannedchat},{chatname:1,_id:0});
+    let username = await users2.find({name:array2[j][0].name});
+    banneds[j] = {
+        "userid":array2[j][0]._id,
+        "chatid":array2[j][0].bannedchat,
+        "username":username[0].name,
+        "chatname":chatnames[0].chatname
+    }
+}
+console.log(array2[1][0].name);
 res.json(banneds);
 });
 //////////////////////////////////////////////
