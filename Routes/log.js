@@ -273,7 +273,7 @@ res.json({"success":"true"});
 });
 /////////////////////////////////////
 // BANNED-USERS
-router.get("/banned-user",async(req,res)=>{
+router.get("/banned-user",check,async(req,res)=>{
 let banneds = [];
 let array2 = [];
 let ad = jwt.verify(req.cookies.jwt,process.env.secret);

@@ -354,6 +354,10 @@ for(var i = 0;i<allrooms.length;i++){
                 document.querySelectorAll('.create-room').forEach(e => e.style.display = "none");
             }
             const response = await fetch("/all-rooms");
+            const contentType = response.headers.get("content-type");
+            if(contentType.indexOf("application/json") == -1){
+                location.reload();
+            }
             const jsonobj = await response.json();
             if(jsonobj.length<=0){
                 swal({
@@ -472,6 +476,10 @@ for(var i = 0;i<homebutton.length;i++){
         document.querySelectorAll('.create-room').forEach(e => e.style.display="none");
     }
     const response = await fetch("/banned-user");
+    const contentType = response.headers.get("content-type");
+            if(contentType.indexOf("application/json") == -1){
+                location.reload();
+            }
     const jsonobj = await response.json();
     if(jsonobj.length<=0){
         console.log("merhaba");
