@@ -1,5 +1,3 @@
-
-
 // ALL VARIABLES
 let create = document.getElementsByClassName("create");
     let createroom = document.getElementsByClassName("create-room");
@@ -233,7 +231,10 @@ createroom[0].style.display = "block";
 for(var i = 0;i<yourrooms.length;i++){
     if(i==0||i==1){
             yourrooms[i].addEventListener("click",async()=>{
-                
+            if(chatscreen.style.display == "flex"&&chattitle.style.display == "flex"){
+                socket.emit("leavechat");
+               location.reload();
+            }
             if(document.getElementsByClassName("create-room1").length>0){
                 document.querySelectorAll('.create-room1').forEach(e => e.remove());
         }
@@ -338,7 +339,7 @@ for(var i = 0;i<yourrooms.length;i++){
             document.getElementsByClassName("create-room1")[i].style.display = "block";
             }
         }
-        })
+        });
         
 }
 }
@@ -347,6 +348,10 @@ for(var i = 0;i<yourrooms.length;i++){
 for(var i = 0;i<allrooms.length;i++){
     if(i==0||i==1){
         allrooms[i].addEventListener("click",async()=>{
+            if(chatscreen.style.display == "flex"&&chattitle.style.display == "flex"){
+                socket.emit("leavechat");
+               location.reload();
+            }
             if(document.getElementsByClassName("create-room1").length>0){
                 document.querySelectorAll('.create-room1').forEach(e => e.remove());
             }
