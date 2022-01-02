@@ -18,7 +18,6 @@ server.listen(process.env.PORT||1998);
 app.set('view-engine','ejs');
 app.use(express.static('images'));
 app.use(express.static('scripts'));
-
 app.use(express.json());
 app.use(cookieparser());
 app.use(express.urlencoded({extended:true}));
