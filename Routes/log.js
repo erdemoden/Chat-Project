@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const { rawListeners, findOneAndRemove, updateOne, findOne, exists } = require("../users2");
 const bcyrpt = require('bcrypt');
 const {check} = require("./Auth");
+const {check2} = require("./Auth2");
 const users2 = require("../users2");
 const chats = require("../chats");
 //const { json } = require("body-parser");
@@ -16,14 +17,8 @@ let username;
 require("dotenv").config();
 
 // GET (/)
-router.get('/',(req,res)=>{
-let token = req.cookies.jwt;
-if(token){
-    res.redirect("/homepage");
-}
-else{
-    res.render("index.ejs",{error:false});
-}
+router.get('/',check2,(req,res)=>{
+res.redirect("/homepage");
 });
 
 // Sign-Out Clear jwt
