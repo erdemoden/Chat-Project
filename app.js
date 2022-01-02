@@ -16,6 +16,7 @@ const { signedCookie } = require('cookie-parser');
 const io = socketio(server);
 server.listen(process.env.PORT||1998);
 app.set('view-engine','ejs');
+app.set('Views', __dirname + '/app/Views');
 app.use(express.static('images'));
 app.use(express.static('scripts'));
 app.use(express.json());
