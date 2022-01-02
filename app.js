@@ -62,7 +62,7 @@ io.on('connection',(socket)=>{
     });
         socket.on("disconnect",async()=>{
         if(socket.chatid!=undefined&&rooms[socket.chatid].length==1){
-            axios.post('http://localhost:1998/decreaseroom', {
+            axios.post('https://iauchat.herokuapp.com/decreaseroom', {
                 "id":socket.chatid
               })
               .then(function (response) {
@@ -83,7 +83,7 @@ io.on('connection',(socket)=>{
         }
         else if (socket.chatid!=undefined&&rooms[socket.chatid].length>1){
             let checkname = rooms[socket.chatid][rooms[socket.chatid].length-1];
-            axios.post('http://localhost:1998/decreaseroom', {
+            axios.post('https://iauchat.herokuapp.com/decreaseroom', {
                 "id":socket.chatid
               })
               .then(function (response) {
